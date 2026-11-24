@@ -1,5 +1,7 @@
 import json
+
 from fastapi import APIRouter, Query
+
 from backend.core.config import DATA_DIR
 from backend.schemas.stats import ScenarioItem
 
@@ -7,9 +9,10 @@ router = APIRouter(prefix="/scenarios", tags=["01-Minute Lessons & Quiz"])
 
 DATA_PATH = DATA_DIR / "sample_scenarios.json"
 
+
 @router.get("", response_model=list[ScenarioItem])
 def get_scenarios(
-    audience: str | None = Query(None, description="Lọc theo đối tượng: elderly, student, general")
+    audience: str | None = Query(None, description="Lọc theo đối tượng: elderly, student, general"),
 ) -> list[ScenarioItem]:
     """Lấy danh sách 10 tình huống lừa đảo phổ biến để học kỹ năng 01 phút"""
     if not DATA_PATH.exists():

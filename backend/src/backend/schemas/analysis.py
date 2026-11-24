@@ -1,18 +1,23 @@
 from enum import Enum
+
 from pydantic import BaseModel, Field
+
 
 class RiskLevel(str, Enum):
     SAFE = "SAFE"
     SUSPICIOUS = "SUSPICIOUS"
     DANGEROUS = "DANGEROUS"
 
+
 class ExtractedEntities(BaseModel):
     phones: list[str] = Field(default_factory=list, description="Số điện thoại trích xuất")
     bank_accounts: list[str] = Field(default_factory=list, description="Số tài khoản ngân hàng")
     urls: list[str] = Field(default_factory=list, description="Đường link trích xuất")
 
+
 class AnalyzeMessageRequest(BaseModel):
     message: str = Field(..., min_length=2, description="Nội dung tin nhắn cần phân tích")
+
 
 class ScamAnalysisResult(BaseModel):
     risk_score: int = Field(..., ge=0, le=100, description="Điểm rủi ro từ 0 đến 100")

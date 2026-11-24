@@ -1,12 +1,15 @@
 import json
+
 from fastapi import APIRouter
+
 from backend.core.config import DATA_DIR
-from backend.schemas.stats import VolunteerDashboardStats, CategoryStats
 from backend.schemas.report import ReportResponse
+from backend.schemas.stats import CategoryStats, VolunteerDashboardStats
 
 router = APIRouter(prefix="/stats", tags=["Volunteer Dashboard"])
 
 DATA_PATH = DATA_DIR / "sample_reports.json"
+
 
 @router.get("", response_model=VolunteerDashboardStats)
 def get_volunteer_stats() -> VolunteerDashboardStats:
@@ -30,10 +33,10 @@ def get_volunteer_stats() -> VolunteerDashboardStats:
                         risk_level=r["risk_level"],
                         reported_at=r["reported_at"],
                         is_police_reported=r["is_police_reported"],
-                        police_case_code=r["police_case_code"]
+                        police_case_code=r["police_case_code"],
                     )
                     for r in data["recent_reports"]
-                ]
+                ],
             )
 
     return VolunteerDashboardStats(
@@ -42,10 +45,7 @@ def get_volunteer_stats() -> VolunteerDashboardStats:
         phone_scams_percentage=40,
         bank_scams_percentage=25,
         summary_by_category=CategoryStats(
-            fake_link=42,
-            impersonation_police=36,
-            fake_job_ctv=24,
-            emergency_accident=18
+            fake_link=42, impersonation_police=36, fake_job_ctv=24, emergency_accident=18
         ),
-        recent_reports=[]
+        recent_reports=[],
     )

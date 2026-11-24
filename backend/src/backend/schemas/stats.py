@@ -1,11 +1,14 @@
 from pydantic import BaseModel
+
 from backend.schemas.report import ReportResponse
+
 
 class CategoryStats(BaseModel):
     fake_link: int
     impersonation_police: int
     fake_job_ctv: int
     emergency_accident: int
+
 
 class VolunteerDashboardStats(BaseModel):
     total_reports_month: int
@@ -14,6 +17,7 @@ class VolunteerDashboardStats(BaseModel):
     bank_scams_percentage: int
     summary_by_category: CategoryStats
     recent_reports: list[ReportResponse]
+
 
 class ScenarioItem(BaseModel):
     id: int

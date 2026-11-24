@@ -1,19 +1,24 @@
 import json
-import tldextract
+
 import Levenshtein
+import tldextract
+
 from backend.core.config import DATA_DIR
 from backend.schemas.analysis import RiskLevel
 
 DATA_PATH = DATA_DIR / "legitimate_domains.json"
 
+
 def load_legitimate_domains() -> list[str]:
     try:
         with open(DATA_PATH, "r", encoding="utf-8") as f:
             return json.load(f)
-    except Exception:
+    except json.JSONDecodeError, OSError:
         return ["vietcombank.com.vn", "bidv.com.vn", "dichvucong.gov.vn", "dongnai.gov.vn"]
 
+
 SUSPICIOUS_TLDS = {".xyz", ".top", ".tk", ".icu", ".buzz", ".cfd", ".rest", ".online", ".site", ".club"}
+
 
 def check_url_safety(url: str) -> tuple[RiskLevel, str, str]:
     """Kiểm tra độ an toàn của đường link dựa trên tên miền và thuật toán Levenshtein"""
@@ -42,7 +47,7 @@ def check_url_safety(url: str) -> tuple[RiskLevel, str, str]:
             return (
                 RiskLevel.DANGEROUS,
                 "Phát hiện tên miền giả mạo (Typosquatting)",
-                f"Tên miền '{registered_domain}' cố tình viết tương tự thương hiệu chính thống '{legit}' để đánh lừa người dùng."
+                f"Tên miền '{registered_domain}' cố tình viết tương tự thương hiệu chính thống '{legit}' để đánh lừa người dùng.",
             )
 
     # 3. Kiểm tra đuôi tên miền rủi ro cao thường dùng để lừa đảo
@@ -50,7 +55,7 @@ def check_url_safety(url: str) -> tuple[RiskLevel, str, str]:
         return (
             RiskLevel.DANGEROUS,
             "Đuôi tên miền rủi ro cao",
-            f"Đuôi tên miền '{domain_suffix}' thường được các nhóm lừa đảo đăng ký giá rẻ để mạo danh cơ quan hoặc ngân hàng."
+            f"Đuôi tên miền '{domain_suffix}' thường được các nhóm lừa đảo đăng ký giá rẻ để mạo danh cơ quan hoặc ngân hàng.",
         )
 
     # 4. Kiểm tra từ khóa nhạy cảm trong subdomain hoặc domain
@@ -60,7 +65,11 @@ def check_url_safety(url: str) -> tuple[RiskLevel, str, str]:
             return (
                 RiskLevel.DANGEROUS,
                 "Dấu hiệu mạo danh ngân hàng / dịch vụ công",
-                f"Đường dẫn chứa từ khóa nhạy cảm '{kw}' nhưng không thuộc hệ thống tên miền chính thống."
+                f"Đường dẫn chứa từ khóa nhạy cảm '{kw}' nhưng không thuộc hệ thống tên miền chính thống.",
             )
 
-    return RiskLevel.SUSPICIOUS, "Tên miền chưa được xác minh", "Đường dẫn lạ chưa có trong danh bạ an toàn. Vui lòng không đăng nhập hoặc nộp tiền."
+    return (
+        RiskLevel.SUSPICIOUS,
+        "Tên miền chưa được xác minh",
+        "Đường dẫn lạ chưa có trong danh bạ an toàn. Vui lòng không đăng nhập hoặc nộp tiền.",
+    )

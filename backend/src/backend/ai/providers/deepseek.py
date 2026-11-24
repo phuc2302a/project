@@ -1,4 +1,5 @@
 from openai import OpenAI
+
 from backend.core.config import settings
 from backend.schemas.analysis import ScamAnalysisResult
 
@@ -16,14 +17,12 @@ Phân tích tin nhắn và trả về kết quả JSON chuẩn xác với cấu 
 }
 """
 
+
 class DeepSeekProvider:
     def __init__(self):
         if not settings.DEEPSEEK_API_KEY:
             raise ValueError("DEEPSEEK_API_KEY is not configured.")
-        self.client = OpenAI(
-            api_key=settings.DEEPSEEK_API_KEY,
-            base_url=settings.DEEPSEEK_BASE_URL
-        )
+        self.client = OpenAI(api_key=settings.DEEPSEEK_API_KEY, base_url=settings.DEEPSEEK_BASE_URL)
 
     async def analyze(self, message: str) -> ScamAnalysisResult:
         response = self.client.chat.completions.create(
@@ -31,9 +30,9 @@ class DeepSeekProvider:
             response_format={"type": "json_object"},
             messages=[
                 {"role": "system", "content": SYSTEM_INSTRUCTION},
-                {"role": "user", "content": f"Phân tích tin nhắn sau:\n{message}"}
+                {"role": "user", "content": f"Phân tích tin nhắn sau:\n{message}"},
             ],
-            temperature=0.2
+            temperature=0.2,
         )
         content = response.choices[0].message.content or "{}"
         return ScamAnalysisResult.model_validate_json(content)

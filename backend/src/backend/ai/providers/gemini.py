@@ -1,6 +1,6 @@
-import json
 from google import genai
 from google.genai import types
+
 from backend.core.config import settings
 from backend.schemas.analysis import ScamAnalysisResult
 
@@ -15,6 +15,7 @@ Nhiệm vụ của bạn là phân tích đoạn tin nhắn do người dùng cu
 - recommended_action: lời khuyên hành động tức thì, dứt khoát
 - extracted_entities: { phones: [], bank_accounts: [], urls: [] } trích xuất từ tin nhắn
 """
+
 
 class GeminiProvider:
     def __init__(self):
@@ -31,7 +32,7 @@ class GeminiProvider:
                 system_instruction=SYSTEM_INSTRUCTION,
                 response_mime_type="application/json",
                 response_schema=ScamAnalysisResult,
-                temperature=0.2
-            )
+                temperature=0.2,
+            ),
         )
-        return ScamAnalysisResult.model_validate_json(response.text)
+        return ScamAnalysisResult.model_validate_json(response.text or "{}")

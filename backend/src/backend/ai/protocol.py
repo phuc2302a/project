@@ -1,5 +1,7 @@
 from typing import Protocol, runtime_checkable
+
 from backend.schemas.analysis import ScamAnalysisResult
+
 
 @runtime_checkable
 class ScamAnalyzerProvider(Protocol):
