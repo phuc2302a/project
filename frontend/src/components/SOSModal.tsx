@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { X, Phone, MessageSquare, Send, UserPlus, Trash2, ShieldAlert, HeartHandshake } from 'lucide-react'
 import type { ContactPerson } from '../types'
 import { useElderMode } from '../contexts/ElderModeContext'
-import { Button } from './ui/button'
-import { Card, CardHeader, CardTitle, CardContent } from './ui/card'
-import { Input } from './ui/input'
 
 interface Props {
   isOpen: boolean
@@ -88,47 +85,47 @@ export const SOSModal: React.FC<Props> = ({ isOpen, onClose, suspectInfo = '' })
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 p-4 backdrop-blur-xs animate-in fade-in duration-200">
-      <Card className={`w-full max-w-lg border-slate-200 shadow-2xl bg-white rounded-3xl overflow-hidden ${isElderMode ? 'text-xl' : 'text-base'}`}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-md animate-in fade-in duration-200">
+      <div className={`w-full max-w-lg bg-[#0e0e11] border border-neutral-800 rounded-3xl overflow-hidden shadow-2xl text-zinc-100 ${isElderMode ? 'text-xl' : 'text-base'}`}>
         {/* Header */}
-        <CardHeader className="flex flex-row items-center justify-between border-b border-slate-100 bg-rose-50/60 p-5">
+        <div className="flex items-center justify-between p-6 border-b border-neutral-800/80 bg-neutral-900/40">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-rose-600 text-white shadow-xs">
-              <ShieldAlert className="h-6 w-6" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-950 border border-rose-800 text-rose-400">
+              <ShieldAlert className="h-5 w-5" />
             </div>
             <div>
-              <CardTitle className={`font-black text-rose-950 ${isElderMode ? 'text-2xl' : 'text-lg'}`}>
+              <h3 className="font-bold text-white text-base sm:text-lg">
                 Hỏi Ý Kiến Người Thân (SOS)
-              </CardTitle>
-              <p className="text-xs text-rose-800 font-medium">Bình tĩnh, không chuyển tiền vội. Hãy hỏi con cháu trước!</p>
+              </h3>
+              <p className="text-xs text-neutral-400">Bình tĩnh, không chuyển tiền một mình. Hỏi con cháu trước!</p>
             </div>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full p-2 text-slate-400 hover:bg-white hover:text-slate-700 transition-colors"
+            className="rounded-lg p-2 text-neutral-400 hover:text-white hover:bg-neutral-800 transition-colors"
           >
             <X className="h-5 w-5" />
           </button>
-        </CardHeader>
+        </div>
 
-        <CardContent className="p-5 sm:p-6 space-y-5">
+        <div className="p-6 space-y-5">
           {/* Reassuring Banner */}
-          <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs sm:text-sm font-semibold flex items-center gap-2.5">
-            <HeartHandshake className="w-5 h-5 text-amber-700 shrink-0" />
+          <div className="p-3.5 rounded-2xl bg-amber-950/40 border border-amber-900/60 text-amber-300 text-xs sm:text-sm font-medium flex items-center gap-2.5">
+            <HeartHandshake className="w-5 h-5 text-amber-400 shrink-0" />
             <span>Kẻ xấu thường hối thúc để bạn không kịp hỏi ai. Chỉ cần dừng lại 1 phút hỏi con cháu là an toàn!</span>
           </div>
 
           {/* Contact Selector */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
+              <label className="text-xs font-mono uppercase text-neutral-500">
                 Chọn người thân muốn liên lạc:
               </label>
               <button
                 type="button"
                 onClick={() => setShowAddForm(!showAddForm)}
-                className="inline-flex items-center gap-1 text-xs font-bold text-blue-600 hover:text-blue-800"
+                className="inline-flex items-center gap-1 text-xs font-medium text-blue-400 hover:text-blue-300"
               >
                 <UserPlus className="w-3.5 h-3.5" />
                 <span>{showAddForm ? 'Đóng' : '+ Thêm số người thân'}</span>
@@ -143,28 +140,28 @@ export const SOSModal: React.FC<Props> = ({ isOpen, onClose, suspectInfo = '' })
                   <div
                     key={c.phone}
                     onClick={() => setSelectedPhone(c.phone)}
-                    className={`flex items-center justify-between p-3 rounded-2xl border cursor-pointer transition-all ${
+                    className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-colors ${
                       isSelected
-                        ? 'border-blue-500 bg-blue-50/70 shadow-xs'
-                        : 'border-slate-200 bg-white hover:bg-slate-50'
+                        ? 'border-neutral-600 bg-neutral-900 text-white'
+                        : 'border-neutral-800/80 bg-[#141418] text-neutral-300 hover:border-neutral-700'
                     }`}
                   >
                     <div className="flex items-center gap-3">
                       <div
-                        className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
-                          isSelected ? 'border-blue-600 bg-blue-600' : 'border-slate-300'
+                        className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center ${
+                          isSelected ? 'border-white bg-white' : 'border-neutral-600'
                         }`}
                       >
-                        {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
+                        {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-black" />}
                       </div>
                       <div>
-                        <div className="font-bold text-slate-900 flex items-center gap-2">
+                        <div className="font-semibold text-sm flex items-center gap-2">
                           <span>{c.name}</span>
-                          <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-neutral-800 text-neutral-400">
                             {c.relationship}
                           </span>
                         </div>
-                        <div className="text-xs text-slate-500 font-mono font-medium">{c.phone}</div>
+                        <div className="text-xs text-neutral-500 font-mono">{c.phone}</div>
                       </div>
                     </div>
 
@@ -175,9 +172,9 @@ export const SOSModal: React.FC<Props> = ({ isOpen, onClose, suspectInfo = '' })
                           e.stopPropagation()
                           handleDeleteContact(c.phone)
                         }}
-                        className="text-slate-300 hover:text-rose-600 p-1 rounded-lg"
+                        className="text-neutral-600 hover:text-rose-400 p-1"
                       >
-                        <Trash2 className="w-4 h-4" />
+                        <Trash2 className="w-3.5 h-3.5" />
                       </button>
                     )}
                   </div>
@@ -187,81 +184,81 @@ export const SOSModal: React.FC<Props> = ({ isOpen, onClose, suspectInfo = '' })
 
             {/* Form thêm số mới */}
             {showAddForm && (
-              <form onSubmit={handleAddContact} className="mt-3 p-3.5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
-                <div className="text-xs font-bold text-slate-700">Lưu số con cháu vào danh bạ an toàn:</div>
+              <form onSubmit={handleAddContact} className="mt-3 p-3.5 bg-[#141418] rounded-xl border border-neutral-800 space-y-2">
+                <div className="text-xs text-neutral-400">Lưu số con cháu:</div>
                 <div className="grid grid-cols-2 gap-2">
-                  <Input
+                  <input
                     placeholder="Tên (VD: Con trai Nam)"
                     value={newName}
                     onChange={(e) => setNewName(e.target.value)}
                     required
+                    className="p-2 bg-neutral-900 border border-neutral-700 rounded-lg text-xs text-white"
                   />
-                  <Input
+                  <input
                     placeholder="Số điện thoại"
                     value={newPhone}
                     onChange={(e) => setNewPhone(e.target.value)}
                     required
+                    className="p-2 bg-neutral-900 border border-neutral-700 rounded-lg text-xs text-white"
                   />
                 </div>
-                <Button type="submit" size="sm" className="w-full font-bold bg-blue-600 hover:bg-blue-700 text-white rounded-xl">
+                <button type="submit" className="w-full text-xs font-semibold bg-white text-black py-2 rounded-lg hover:bg-neutral-200">
                   Lưu số này
-                </Button>
+                </button>
               </form>
             )}
           </div>
 
-          {/* Pre-written Message Preview */}
-          <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 block">
-              Nội dung gửi cho con cháu:
+          {/* Pre-written message */}
+          <div className="p-3.5 rounded-xl bg-[#141418] border border-neutral-800/80 text-xs text-neutral-400">
+            <span className="text-[10px] uppercase font-mono text-neutral-500 block mb-1">
+              Tin nhắn gửi đi:
             </span>
-            <p className="text-xs sm:text-sm text-slate-700 italic leading-relaxed">
-              &quot;{messageText}&quot;
-            </p>
+            <p className="italic text-zinc-300">&quot;{messageText}&quot;</p>
           </div>
 
-          {/* Quick Actions (Call, SMS, Zalo) */}
-          <div className="grid grid-cols-3 gap-2.5">
-            <Button
+          {/* 3 Quick Action Buttons */}
+          <div className="grid grid-cols-3 gap-2">
+            <button
               type="button"
               onClick={handleCall}
               disabled={!selectedPhone}
-              className="font-bold py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs flex flex-col items-center justify-center gap-1 h-auto"
+              className="py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex flex-col items-center justify-center gap-1 transition-colors disabled:opacity-40"
             >
-              <Phone className="w-5 h-5" />
-              <span className="text-xs">Gọi điện ngay</span>
-            </Button>
+              <Phone className="w-4 h-4" />
+              <span>Gọi điện</span>
+            </button>
 
-            <Button
+            <button
               type="button"
               onClick={handleSMS}
               disabled={!selectedPhone}
-              className="font-bold py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white shadow-xs flex flex-col items-center justify-center gap-1 h-auto"
+              className="py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex flex-col items-center justify-center gap-1 transition-colors disabled:opacity-40"
             >
-              <MessageSquare className="w-5 h-5" />
-              <span className="text-xs">Gửi SMS</span>
-            </Button>
+              <MessageSquare className="w-4 h-4" />
+              <span>Gửi SMS</span>
+            </button>
 
-            <Button
+            <button
               type="button"
               onClick={handleZalo}
               disabled={!selectedPhone}
-              className="font-bold py-3.5 rounded-2xl bg-sky-600 hover:bg-sky-700 text-white shadow-xs flex flex-col items-center justify-center gap-1 h-auto"
+              className="py-3 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs flex flex-col items-center justify-center gap-1 transition-colors disabled:opacity-40"
             >
-              <Send className="w-5 h-5" />
-              <span className="text-xs">Gửi qua Zalo</span>
-            </Button>
+              <Send className="w-4 h-4" />
+              <span>Gửi qua Zalo</span>
+            </button>
           </div>
 
-          {/* Hotline khẩn cấp Công an */}
-          <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-600">
-            <span>Hoặc gọi trực ban Công an Đồng Nai:</span>
-            <a href="tel:0693480113" className="font-bold text-rose-600 hover:underline">
+          {/* Hotline Trực ban Công an */}
+          <div className="pt-2 border-t border-neutral-800/80 flex items-center justify-between text-xs text-neutral-500">
+            <span>Hoặc gọi Trực ban Công an Đồng Nai:</span>
+            <a href="tel:0693480113" className="font-mono font-bold text-rose-400 hover:underline">
               0693.480.113
             </a>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   )
 }

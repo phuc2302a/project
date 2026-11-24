@@ -1,12 +1,8 @@
 import React, { useState } from 'react'
-import { Send, Shield, Check, Copy, AlertOctagon, Phone } from 'lucide-react'
+import { Send, Shield, Copy, Phone } from 'lucide-react'
 import { api } from '../services/api'
 import type { TargetType, ReportResponse } from '../types'
 import { useElderMode } from '../contexts/ElderModeContext'
-import { Button } from '../components/ui/button'
-import { Card, CardContent } from '../components/ui/card'
-import { Input } from '../components/ui/input'
-import { Textarea } from '../components/ui/textarea'
 
 export const ReportScreen: React.FC = () => {
   const { isElderMode } = useElderMode()
@@ -57,237 +53,223 @@ export const ReportScreen: React.FC = () => {
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
-      {/* Civic Header */}
-      <div className="text-center mb-8">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold mb-3 shadow-2xs">
-          <AlertOctagon className="w-3.5 h-3.5 text-rose-600" />
-          <span>Kênh Tiếp Nhận Phản Ánh Tội Phạm Số — Tỉnh Đồng Nai</span>
-        </div>
-        <h1 className={`font-black tracking-tight text-slate-950 ${isElderMode ? 'text-3xl sm:text-4xl' : 'text-2xl sm:text-3xl'}`}>
-          Tố Giác Hành Vi Lừa Đảo Trực Tuyến
+    <div className="max-w-4xl mx-auto px-4 pt-16 sm:pt-20 pb-12 sm:px-6">
+      {/* Eyebrow Kicker */}
+      <div className="text-center mb-4">
+        <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-neutral-400">
+          CỔNG TIẾP NHẬN PHẢN ÁNH TỘI PHẠM SỐ • TỈNH ĐỒNG NAI
+        </span>
+      </div>
+
+      {/* Hero Headline */}
+      <div className="text-center max-w-2xl mx-auto mb-8">
+        <h1
+          className={`font-black tracking-tight text-white ${
+            isElderMode ? 'text-4xl sm:text-5xl' : 'text-3xl sm:text-5xl'
+          }`}
+          style={{ letterSpacing: '-0.03em', lineHeight: 1.1 }}
+        >
+          Tố giác hành vi{' '}
+          <span className="bg-gradient-to-r from-violet-300 via-rose-300 to-indigo-300 bg-clip-text text-transparent">
+            lừa đảo
+          </span>{' '}
+          trực tuyến.
         </h1>
-        <p className={`text-slate-600 mt-2 max-w-2xl mx-auto leading-relaxed ${isElderMode ? 'text-xl' : 'text-sm sm:text-base'}`}>
-          Mỗi thông tin của bạn giúp cập nhật danh sách đen cảnh báo cho toàn bộ người dân Đồng Nai và được chuyển giao đồng bộ sang Công an tỉnh.
+        <p className="mt-3 text-neutral-400 text-sm sm:text-base leading-relaxed">
+          Mỗi thông tin phản ánh giúp cập nhật danh sách đen bảo vệ cộng đồng và được chuyển giao đồng bộ sang Công an tỉnh Đồng Nai.
         </p>
       </div>
 
       {submittedReport ? (
-        /* ============= PHIẾU XÁC NHẬN HỒ SƠ ĐIỆN TỬ ============= */
-        <Card className="border border-emerald-200 bg-white shadow-xl overflow-hidden rounded-3xl animate-in zoom-in-95 duration-200">
-          <div className="bg-gradient-to-r from-emerald-700 to-teal-700 text-white p-6 sm:p-8 text-center space-y-3">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-white text-emerald-700 shadow-md">
-              <Check className="h-10 w-10 stroke-[3]" />
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-black">TIẾP NHẬN BÁO CÁO THÀNH CÔNG</h2>
-            <p className="text-emerald-100 text-sm max-w-md mx-auto">
-              Thông tin đã được mã hóa bảo mật và đưa vào hệ thống giám sát an toàn thông tin toàn tỉnh Đồng Nai.
-            </p>
+        /* Certificate card */
+        <div className="max-w-2xl mx-auto bg-[#0d0d10] border border-neutral-800 rounded-3xl p-6 sm:p-8 shadow-2xl animate-in zoom-in-95 duration-200 space-y-6">
+          <div className="flex items-center justify-between text-xs text-neutral-400 border-b border-neutral-800 pb-4">
+            <span>Phiếu xác nhận tiếp nhận hồ sơ</span>
+            <span className="font-mono text-emerald-400">HỆ THỐNG ĐÃ XÁC NHẬN</span>
           </div>
 
-          <CardContent className="p-6 sm:p-8 space-y-6">
+          <div className="space-y-4">
             {submittedReport.is_police_reported && submittedReport.police_case_code && (
-              <div className="rounded-2xl bg-blue-50 border-2 border-blue-200 p-6 space-y-3">
-                <div className="flex items-center gap-2 text-blue-900 font-black text-xs uppercase tracking-wider">
-                  <Shield className="w-5 h-5 text-blue-600" />
-                  <span>KÊNH TIẾP NHẬN CÔNG AN TỈNH ĐỒNG NAI</span>
+              <div className="bg-[#141418] border border-blue-900/60 rounded-2xl p-5 space-y-2">
+                <div className="flex items-center gap-2 text-blue-400 font-mono text-xs uppercase">
+                  <Shield className="w-4 h-4" />
+                  <span>MÃ SỐ TIẾP NHẬN CÔNG AN TỈNH ĐỒNG NAI:</span>
                 </div>
-                <div>
-                  <span className="text-xs font-semibold text-slate-500 uppercase block">
-                    MÃ SỐ HỒ SƠ ĐIỆN TỬ:
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl sm:text-3xl font-mono font-black text-white">
+                    {submittedReport.police_case_code}
                   </span>
-                  <div className="flex items-center gap-3 mt-1.5 flex-wrap">
-                    <div className="text-2xl sm:text-3xl font-mono font-black text-blue-800 bg-white py-2 px-4 rounded-xl border border-blue-300 shadow-xs">
-                      {submittedReport.police_case_code}
-                    </div>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={copyCaseCode}
-                      className="font-bold rounded-xl gap-1.5 border-blue-300 text-blue-800 hover:bg-blue-100"
-                    >
-                      <Copy className="w-4 h-4" />
-                      <span>{copied ? 'Đã chép mã!' : 'Sao chép mã hồ sơ'}</span>
-                    </Button>
-                  </div>
+                  <button
+                    type="button"
+                    onClick={copyCaseCode}
+                    className="p-2 bg-neutral-800 hover:bg-neutral-700 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors"
+                  >
+                    <Copy className="w-3.5 h-3.5" />
+                    <span>{copied ? 'Đã sao chép' : 'Sao chép'}</span>
+                  </button>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed pt-1">
-                  Mã hồ sơ này có giá trị xác nhận bạn đã tố giác tội phạm số. Bạn có thể xuất trình mã khi làm việc trực tiếp tại Công an xã, phường hoặc Công an TP. Biên Hòa.
+                <p className="text-xs text-neutral-400 leading-relaxed pt-1">
+                  Mã này xác nhận bạn đã gửi tin báo tội phạm số. Xuất trình mã khi làm việc với Công an phường/xã hoặc Công an TP. Biên Hòa.
                 </p>
               </div>
             )}
 
-            <div className="space-y-3 rounded-2xl bg-slate-50 p-5 border border-slate-200 text-sm">
-              <div className="font-bold text-slate-900 border-b border-slate-200 pb-2">
-                Tóm tắt nội dung phản ánh:
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-slate-700">
+            <div className="bg-[#141418] border border-neutral-800/80 rounded-2xl p-5 space-y-2 text-xs sm:text-sm">
+              <span className="text-neutral-500 uppercase font-mono text-[11px] block">
+                NỘI DUNG ĐÃ GHI NHẬN
+              </span>
+              <div className="grid grid-cols-2 gap-2 text-neutral-300">
                 <div>
-                  <span className="text-slate-400 block text-xs">Loại đối tượng:</span>
-                  <span className="font-bold uppercase text-slate-900">{submittedReport.target_type}</span>
+                  <span className="text-neutral-500 text-xs block">Đối tượng:</span>
+                  <span className="font-mono font-bold text-white">{submittedReport.target}</span>
                 </div>
                 <div>
-                  <span className="text-slate-400 block text-xs">Đối tượng nghi vấn:</span>
-                  <span className="font-mono font-bold text-slate-900">{submittedReport.target}</span>
-                </div>
-                <div>
-                  <span className="text-slate-400 block text-xs">Thủ đoạn nhận diện:</span>
-                  <span className="font-semibold text-slate-900">{submittedReport.tactic_type}</span>
-                </div>
-                <div>
-                  <span className="text-slate-400 block text-xs">Thời điểm tiếp nhận:</span>
-                  <span className="font-semibold text-slate-900">{new Date(submittedReport.reported_at).toLocaleString('vi-VN')}</span>
+                  <span className="text-neutral-500 text-xs block">Hình thức:</span>
+                  <span className="text-white">{submittedReport.tactic_type}</span>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div className="flex flex-col sm:flex-row gap-3 pt-2">
-              <Button
-                type="button"
-                onClick={resetForm}
-                className="flex-1 font-bold rounded-xl bg-blue-600 hover:bg-blue-700 text-white"
-              >
-                Gửi thêm một phản ánh khác
-              </Button>
-              <a
-                href="tel:0693480113"
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-800 font-bold text-sm shadow-xs transition-colors"
-              >
-                <Phone className="w-4 h-4 text-blue-600" />
-                <span>Liên hệ Trực ban Công an: 0693.480.113</span>
-              </a>
-            </div>
-          </CardContent>
-        </Card>
+          <div className="flex gap-3 pt-2">
+            <button
+              type="button"
+              onClick={resetForm}
+              className="flex-1 py-3 rounded-xl bg-white text-black font-semibold text-sm hover:bg-neutral-200 transition-colors"
+            >
+              Gửi thêm phản ánh khác
+            </button>
+            <a
+              href="tel:0693480113"
+              className="px-5 py-3 rounded-xl bg-neutral-900 border border-neutral-800 text-white text-sm font-semibold hover:border-neutral-700 transition-colors flex items-center gap-2"
+            >
+              <Phone className="w-4 h-4 text-rose-400" />
+              <span>Gọi 0693.480.113</span>
+            </a>
+          </div>
+        </div>
       ) : (
-        /* ============= FORM NHẬP THÔNG TIN ============= */
-        <Card className="border border-slate-200 shadow-md bg-white rounded-3xl overflow-hidden">
-          <CardContent className="p-6 sm:p-8 space-y-6">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Bước 1: Thủ đoạn */}
-              <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-500 block">
-                  1. Chọn hình thức / thủ đoạn lừa đảo:
-                </label>
-                <select
-                  value={tacticType}
-                  onChange={(e) => setTacticType(e.target.value)}
-                  className={`w-full p-3.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 font-semibold focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 transition-all ${
-                    isElderMode ? 'text-xl' : 'text-sm'
+        /* Report Form */
+        <form
+          onSubmit={handleSubmit}
+          className="max-w-2xl mx-auto bg-[#0d0d10] border border-neutral-800 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-5"
+        >
+          {/* Tactic dropdown */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-mono uppercase text-neutral-500 block">
+              1. Hình thức / thủ đoạn lừa đảo:
+            </label>
+            <select
+              value={tacticType}
+              onChange={(e) => setTacticType(e.target.value)}
+              className="w-full bg-[#141418] border border-neutral-800 focus:border-neutral-600 focus:outline-none text-white rounded-xl p-3 text-sm"
+            >
+              <option value="Giả danh cơ quan công an / viện kiểm sát">Giả danh cơ quan công an / viện kiểm sát (Đe dọa rửa tiền, ma túy)</option>
+              <option value="Giả mạo ngân hàng / SMS Brandname">Giả mạo ngân hàng / SMS Brandname (Trừ tiền, hủy giao dịch)</option>
+              <option value="Lừa đảo việc nhẹ lương cao / Shopee">Lừa đảo việc nhẹ lương cao / Tuyển CTV nạp tiền</option>
+              <option value="Mạo danh bệnh viện / Con đang cấp cứu">Mạo danh bệnh viện báo con đang cấp cứu chuyển tiền mổ</option>
+              <option value="Bẫy tình cảm / Tặng quà từ nước ngoài">Bẫy tình cảm / Tặng quà từ nước ngoài đóng phí</option>
+              <option value="Hình thức khác">Hình thức thao túng khác</option>
+            </select>
+          </div>
+
+          {/* Target Type & Input */}
+          <div className="space-y-2">
+            <label className="text-xs font-mono uppercase text-neutral-500 block">
+              2. Thông tin kẻ lừa đảo:
+            </label>
+            <div className="flex gap-2">
+              {[
+                { id: 'phone', label: 'Số điện thoại' },
+                { id: 'link', label: 'Website / Link lạ' },
+                { id: 'bank_account', label: 'Số tài khoản nhận tiền' }
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setTargetType(tab.id as TargetType)}
+                  className={`flex-1 py-2 rounded-lg text-xs font-medium border transition-colors ${
+                    targetType === tab.id
+                      ? 'bg-neutral-800 text-white border-neutral-600'
+                      : 'bg-[#141418] text-neutral-400 border-neutral-800 hover:text-white'
                   }`}
                 >
-                  <option value="Giả danh cơ quan công an / viện kiểm sát">Giả danh cơ quan công an / viện kiểm sát (Đe dọa rửa tiền, ma túy)</option>
-                  <option value="Giả mạo ngân hàng / SMS Brandname">Giả mạo ngân hàng / SMS Brandname (Trừ tiền, hủy giao dịch)</option>
-                  <option value="Lừa đảo việc nhẹ lương cao / Shopee">Lừa đảo việc nhẹ lương cao / Tuyển cộng tác viên nạp tiền</option>
-                  <option value="Mạo danh bệnh viện / Con đang cấp cứu">Mạo danh bệnh viện báo con đang cấp cứu chuyển tiền mổ</option>
-                  <option value="Bẫy tình cảm / Tặng quà từ nước ngoài">Bẫy tình cảm / Tặng quà từ nước ngoài đóng phí thông quan</option>
-                  <option value="Lừa đảo đầu tư tài chính / Tiền ảo">Lừa đảo đầu tư tài chính / Sàn tiền ảo cam kết lãi khủng</option>
-                  <option value="Hình thức khác">Hình thức thao túng khác</option>
-                </select>
-              </div>
+                  {tab.label}
+                </button>
+              ))}
+            </div>
 
-              {/* Bước 2: Loại đối tượng */}
-              <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-500 block">
-                  2. Thông tin kẻ lừa đảo:
-                </label>
-                <div className="flex gap-2">
-                  {[
-                    { id: 'phone', label: 'Số điện thoại' },
-                    { id: 'link', label: 'Website / Link lạ' },
-                    { id: 'bank_account', label: 'Số tài khoản nhận tiền' }
-                  ].map((tab) => (
-                    <button
-                      key={tab.id}
-                      type="button"
-                      onClick={() => setTargetType(tab.id as TargetType)}
-                      className={`flex-1 py-2 rounded-xl text-xs sm:text-sm font-bold border transition-all ${
-                        targetType === tab.id
-                          ? 'bg-blue-50 text-blue-700 border-blue-400 shadow-xs'
-                          : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
-                      }`}
-                    >
-                      {tab.label}
-                    </button>
-                  ))}
-                </div>
+            <input
+              type="text"
+              value={target}
+              onChange={(e) => setTarget(e.target.value)}
+              placeholder={
+                targetType === 'phone'
+                  ? 'Nhập số điện thoại kẻ lừa đảo (VD: 0988...)'
+                  : targetType === 'link'
+                  ? 'Nhập đường link website giả mạo (VD: vcb-smart.top...)'
+                  : 'Nhập số tài khoản ngân hàng kẻ lừa đảo yêu cầu nạp tiền'
+              }
+              required
+              className="w-full bg-[#141418] border border-neutral-800 focus:border-neutral-600 focus:outline-none text-white rounded-xl p-3 text-sm mt-1"
+            />
+          </div>
 
-                <Input
-                  value={target}
-                  onChange={(e) => setTarget(e.target.value)}
-                  placeholder={
-                    targetType === 'phone'
-                      ? 'Nhập số điện thoại kẻ lừa đảo (VD: 0988...)'
-                      : targetType === 'link'
-                      ? 'Nhập đường link website giả mạo (VD: vcb-smart.top...)'
-                      : 'Nhập số tài khoản ngân hàng kẻ lừa đảo yêu cầu chuyển tiền'
-                  }
-                  required
-                  className={`mt-2 ${isElderMode ? 'text-xl' : 'text-base'}`}
-                />
-              </div>
+          {/* Description */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-mono uppercase text-neutral-500 block">
+              3. Diễn biến chi tiết vụ việc:
+            </label>
+            <textarea
+              rows={4}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Kẻ xấu đã nói những gì? Yêu cầu chuyển bao nhiêu tiền? Mô tả chi tiết để cơ quan chức năng dễ dàng thụ lý..."
+              required
+              className="w-full bg-[#141418] border border-neutral-800 focus:border-neutral-600 focus:outline-none text-white rounded-xl p-3 text-sm"
+            />
+          </div>
 
-              {/* Bước 3: Diễn biến vụ việc */}
-              <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-500 block">
-                  3. Diễn biến chi tiết vụ việc:
-                </label>
-                <Textarea
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  rows={4}
-                  placeholder="Kẻ xấu đã nói những gì? Yêu cầu chuyển bao nhiêu tiền? Qua số tài khoản nào? Hãy mô tả chi tiết để cơ quan điều tra dễ dàng thụ lý..."
-                  required
-                  className={isElderMode ? 'text-xl' : 'text-base'}
-                />
-              </div>
+          {/* Police dispatch checkbox */}
+          <div className="p-4 rounded-xl bg-[#141418] border border-neutral-800 flex items-start gap-3">
+            <input
+              type="checkbox"
+              id="policeCheck"
+              checked={isPoliceReported}
+              onChange={(e) => setIsPoliceReported(e.target.checked)}
+              className="mt-1 h-4 w-4 rounded border-neutral-700 bg-neutral-900 text-blue-500 focus:ring-0 cursor-pointer"
+            />
+            <label htmlFor="policeCheck" className="text-xs text-neutral-300 cursor-pointer select-none">
+              <span className="font-semibold text-white block">
+                Chuyển giao tin báo sang Kênh tiếp nhận Công an tỉnh Đồng Nai
+              </span>
+              <span className="text-neutral-500">
+                Hệ thống sẽ cấp ngay cho bạn một <strong>Mã số tiếp nhận điện tử</strong> để đối chiếu.
+              </span>
+            </label>
+          </div>
 
-              {/* Tích chọn chuyển Công an */}
-              <div className="p-4 rounded-2xl bg-blue-50/60 border border-blue-200 flex items-start gap-3">
-                <input
-                  type="checkbox"
-                  id="policeCheck"
-                  checked={isPoliceReported}
-                  onChange={(e) => setIsPoliceReported(e.target.checked)}
-                  className="mt-1 h-5 w-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
-                />
-                <label htmlFor="policeCheck" className="text-xs sm:text-sm text-slate-800 cursor-pointer select-none">
-                  <span className="font-bold text-blue-900 block">
-                    Đồng ý chuyển tiếp thông tin này sang Kênh tiếp nhận Công an tỉnh Đồng Nai
-                  </span>
-                  <span>
-                    Hệ thống sẽ cấp ngay cho bạn một <strong>Mã số tiếp nhận hồ sơ điện tử</strong> để theo dõi tiến độ xử lý.
-                  </span>
-                </label>
-              </div>
+          {errorMsg && (
+            <div className="p-3 rounded-lg bg-rose-950/60 border border-rose-900 text-rose-300 text-xs">
+              {errorMsg}
+            </div>
+          )}
 
-              {errorMsg && (
-                <div className="p-3.5 rounded-xl bg-rose-50 text-rose-800 text-sm font-semibold border border-rose-200">
-                  {errorMsg}
-                </div>
-              )}
-
-              <Button
-                type="submit"
-                disabled={isSubmitting || !target.trim() || !description.trim()}
-                className="w-full font-bold py-3.5 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white shadow-sm text-base"
-              >
-                {isSubmitting ? (
-                  <span className="flex items-center gap-2">
-                    <span className="h-5 w-5 rounded-full border-2 border-white border-r-transparent animate-spin"></span>
-                    Đang mã hóa & gửi báo cáo...
-                  </span>
-                ) : (
-                  <span className="flex items-center justify-center gap-2">
-                    <Send className="w-5 h-5" />
-                    <span>Gửi phản ánh ngay để bảo vệ cộng đồng</span>
-                  </span>
-                )}
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
+          <button
+            type="submit"
+            disabled={isSubmitting || !target.trim() || !description.trim()}
+            className="w-full py-3.5 rounded-xl bg-white hover:bg-neutral-200 text-black font-semibold text-sm transition-colors flex items-center justify-center gap-2 disabled:opacity-40"
+          >
+            {isSubmitting ? (
+              <span>Đang mã hóa & gửi...</span>
+            ) : (
+              <>
+                <Send className="w-4 h-4" />
+                <span>Gửi phản ánh để bảo vệ cộng đồng</span>
+              </>
+            )}
+          </button>
+        </form>
       )}
     </div>
   )

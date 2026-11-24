@@ -20,16 +20,16 @@ export function AppContent() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans">
-      {/* Navbar điều hướng */}
+    <div className="min-h-screen flex flex-col bg-[#050507] text-zinc-100 font-sans selection:bg-neutral-700 selection:text-white">
+      {/* Navbar */}
       <Navbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         onOpenSOS={() => handleOpenSOS('')}
       />
 
-      {/* Nội dung trang tương ứng */}
-      <main className="flex-1 pb-16">
+      {/* Main Content */}
+      <main className="flex-1 pb-20">
         {activeTab === 'check' && (
           <CheckScreen onOpenSOSWithInfo={(info) => handleOpenSOS(info)} />
         )}
@@ -39,31 +39,35 @@ export function AppContent() {
         {activeTab === 'volunteer' && <VolunteerScreen />}
       </main>
 
-      {/* Footer & Đường dây nóng khẩn cấp */}
-      <footer className="border-t bg-white py-8 text-center text-sm text-gray-500">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="flex flex-wrap items-center justify-center gap-6 text-sm font-semibold text-gray-700 mb-4">
-            <span className="flex items-center gap-1.5 text-red-600 font-bold">
-              <Phone className="w-4 h-4" /> Tổng đài Quốc gia Bảo vệ Trẻ em: 111
+      {/* Footer */}
+      <footer className="border-t border-neutral-900 bg-[#050507] py-10 text-center text-xs text-neutral-500">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 space-y-4">
+          <div className="flex flex-wrap items-center justify-center gap-6 font-medium text-neutral-400">
+            <span className="flex items-center gap-1.5 hover:text-white transition-colors">
+              <Phone className="w-3.5 h-3.5 text-rose-500" />
+              <span>Đường dây nóng Công an Đồng Nai:</span>
+              <a href="tel:0693480113" className="font-mono font-bold text-zinc-200 hover:text-white">0693.480.113</a>
             </span>
-            <span className="flex items-center gap-1.5 text-blue-700 font-bold">
-              <Shield className="w-4 h-4" /> Trực ban Công an tỉnh Đồng Nai: 0693.480.113
+            <span className="text-neutral-700">•</span>
+            <span className="flex items-center gap-1.5 hover:text-white transition-colors">
+              <Shield className="w-3.5 h-3.5 text-blue-400" />
+              <span>Tổng đài Quốc gia Bảo vệ Trẻ em:</span>
+              <a href="tel:111" className="font-mono font-bold text-zinc-200 hover:text-white">111</a>
             </span>
-            <span className="flex items-center gap-1.5 text-emerald-700 font-bold">
-              <ExternalLink className="w-4 h-4" /> Cục An toàn thông tin (AIS)
+            <span className="text-neutral-700">•</span>
+            <span className="flex items-center gap-1.5 hover:text-white transition-colors">
+              <ExternalLink className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Cục An toàn thông tin (AIS)</span>
             </span>
           </div>
 
-          <p className="font-bold text-gray-800">
-            Dự án LÁ CHẮN SỐ — Hội thi Tin học / Hackathon Đồng Nai 2026
-          </p>
-          <p className="text-xs text-gray-400 mt-1">
-            Ứng dụng hỗ trợ kiểm tra an toàn số, nâng cao kỹ năng phòng chống lừa đảo trực tuyến cho cộng đồng.
+          <p className="text-neutral-500 font-medium">
+            Lá Chắn Số — Hệ thống công nghệ phòng chống tội phạm lừa đảo trực tuyến • Hội thi Tin học Đồng Nai 2026
           </p>
         </div>
       </footer>
 
-      {/* Modal khẩn cấp Hỏi người thân */}
+      {/* SOS Modal */}
       <SOSModal
         isOpen={isSOSOpen}
         onClose={() => setIsSOSOpen(false)}

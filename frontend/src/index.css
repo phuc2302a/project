@@ -7,8 +7,8 @@
 
   body {
     font-family: var(--font-sans);
-    background-color: #f8fafc;
-    color: #0f172a;
+    background-color: #050507;
+    color: #f4f4f5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -21,20 +21,20 @@
 }
 
 .elder-mode h1 {
-  font-size: 2.25rem !important;
-  line-height: 1.3 !important;
+  font-size: 2.5rem !important;
+  line-height: 1.2 !important;
   font-weight: 800 !important;
 }
 
 .elder-mode h2 {
-  font-size: 1.875rem !important;
-  line-height: 1.35 !important;
+  font-size: 2rem !important;
+  line-height: 1.3 !important;
   font-weight: 800 !important;
 }
 
 .elder-mode h3 {
-  font-size: 1.5rem !important;
-  line-height: 1.4 !important;
+  font-size: 1.6rem !important;
+  line-height: 1.35 !important;
   font-weight: 700 !important;
 }
 
@@ -50,8 +50,4 @@
 .elder-mode .text-sm {
   font-size: 1.1rem !important;
   line-height: 1.6 !important;
-}
-
-.elder-mode .elder-hide {
-  display: none !important;
 }
