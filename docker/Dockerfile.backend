@@ -1,0 +1,32 @@
+# Backend Dockerfile sử dụng uv chính thức từ Astral
+FROM ghcr.io/astral-sh/uv:bookworm-slim
+
+WORKDIR /app
+
+# Biến môi trường tối ưu cho Python & uv trong container
+ENV UV_COMPILE_BYTECODE=1
+ENV UV_LINK_MODE=copy
+ENV PYTHONUNBUFFERED=1
+
+# Cài đặt thư viện hệ thống cần thiết (nếu có C-extension)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy cấu hình package trước để tận dụng Docker layer cache
+COPY backend/pyproject.toml backend/uv.lock ./
+
+# Cài đặt python version và dependencies qua uv
+RUN uv sync --frozen --no-dev --no-editable
+
+# Copy toàn bộ mã nguồn backend
+COPY backend/ ./
+
+# Tạo thư mục data lưu database SQLite
+RUN mkdir -p /app/data
+
+EXPOSE 8000
+
+# Chạy FastAPI thông qua uv run
+CMD ["uv", "run", "uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000"]

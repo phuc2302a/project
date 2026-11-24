@@ -1,0 +1,4 @@
+# File tiện ích để chạy docker compose trực tiếp tại thư mục gốc
+# Bạn có thể chạy: docker compose up --build
+include:
+  - docker/docker-compose.yml
