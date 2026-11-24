@@ -14,17 +14,17 @@ export const TrafficLightBadge: React.FC<Props> = ({ level, size = 'normal', cla
     return (
       <div
         className={cn(
-          'inline-flex items-center gap-2 rounded-full font-bold bg-rose-50 text-rose-700 border border-rose-200 shadow-xs',
-          size === 'large' ? 'px-5 py-2.5 text-xl' : 'px-3 py-1 text-xs sm:text-sm',
+          'inline-flex items-center gap-2 rounded-xl font-black bg-rose-50 text-rose-800 border-2 border-rose-300 shadow-xs',
+          size === 'large' ? 'px-4 py-2.5 text-base sm:text-lg' : 'px-3 py-1.5 text-xs sm:text-sm',
           className
         )}
       >
-        <span className="relative flex h-2.5 w-2.5">
+        <span className="relative flex h-3 w-3">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-600"></span>
+          <span className="relative inline-flex rounded-full h-3 w-3 bg-rose-600"></span>
         </span>
-        <ShieldAlert className={size === 'large' ? 'w-6 h-6 text-rose-600' : 'w-4 h-4 text-rose-600'} />
-        <span>NGUY HIỂM (ĐỎ)</span>
+        <ShieldAlert className={size === 'large' ? 'w-5 h-5 text-rose-700' : 'w-4 h-4 text-rose-700'} />
+        <span>NGUY HIỂM — TUYỆT ĐỐI KHÔNG CHUYỂN TIỀN</span>
       </div>
     )
   }
@@ -33,16 +33,14 @@ export const TrafficLightBadge: React.FC<Props> = ({ level, size = 'normal', cla
     return (
       <div
         className={cn(
-          'inline-flex items-center gap-2 rounded-full font-bold bg-amber-50 text-amber-800 border border-amber-200 shadow-xs',
-          size === 'large' ? 'px-5 py-2.5 text-xl' : 'px-3 py-1 text-xs sm:text-sm',
+          'inline-flex items-center gap-2 rounded-xl font-black bg-amber-50 text-amber-900 border-2 border-amber-300 shadow-xs',
+          size === 'large' ? 'px-4 py-2.5 text-base sm:text-lg' : 'px-3 py-1.5 text-xs sm:text-sm',
           className
         )}
       >
-        <span className="relative flex h-2.5 w-2.5">
-          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
-        </span>
-        <AlertTriangle className={size === 'large' ? 'w-6 h-6 text-amber-600' : 'w-4 h-4 text-amber-600'} />
-        <span>NGHI NGỜ (VÀNG)</span>
+        <span className="h-3 w-3 rounded-full bg-amber-500"></span>
+        <AlertTriangle className={size === 'large' ? 'w-5 h-5 text-amber-700' : 'w-4 h-4 text-amber-700'} />
+        <span>NGHI NGỜ — CẦN KIỂM CHỨNG KỸ LƯỠNG</span>
       </div>
     )
   }
@@ -50,16 +48,14 @@ export const TrafficLightBadge: React.FC<Props> = ({ level, size = 'normal', cla
   return (
     <div
       className={cn(
-        'inline-flex items-center gap-2 rounded-full font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-xs',
-        size === 'large' ? 'px-5 py-2.5 text-xl' : 'px-3 py-1 text-xs sm:text-sm',
+        'inline-flex items-center gap-2 rounded-xl font-black bg-emerald-50 text-emerald-900 border-2 border-emerald-300 shadow-xs',
+        size === 'large' ? 'px-4 py-2.5 text-base sm:text-lg' : 'px-3 py-1.5 text-xs sm:text-sm',
         className
       )}
     >
-      <span className="relative flex h-2.5 w-2.5">
-        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-      </span>
-      <ShieldCheck className={size === 'large' ? 'w-6 h-6 text-emerald-600' : 'w-4 h-4 text-emerald-600'} />
-      <span>AN TOÀN (XANH)</span>
+      <span className="h-3 w-3 rounded-full bg-emerald-500"></span>
+      <ShieldCheck className={size === 'large' ? 'w-5 h-5 text-emerald-700' : 'w-4 h-4 text-emerald-700'} />
+      <span>AN TOÀN — NGUỒN CHÍNH THỨC ĐÃ XÁC MINH</span>
     </div>
   )
 }

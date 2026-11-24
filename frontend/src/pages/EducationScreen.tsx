@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Volume2, VolumeX, Clock, ArrowRight, X, BookOpen, AlertTriangle, CheckCircle2 } from 'lucide-react'
+import { Volume2, VolumeX, Clock, ArrowRight, X, BookOpen, AlertTriangle, CheckCircle2, Shield } from 'lucide-react'
 import { api } from '../services/api'
 import type { ScenarioItem } from '../types'
 import { useSpeech } from '../hooks/useSpeech'
@@ -34,120 +34,134 @@ export const EducationScreen: React.FC = () => {
 
   const handleReadScenario = (item: ScenarioItem) => {
     setSelectedScenario(item)
-    const text = `Hồ sơ số ${item.id}: ${item.title}. Kịch bản thao túng: ${item.summary}. Dấu hiệu vạch trần: ${item.key_warning}. Hành động phản xạ tức thì: ${item.action_guide}`
+    const text = `Bài học: ${item.title}. Tình huống: ${item.summary}. Dấu hiệu nhận diện lừa đảo: ${item.key_warning}. Cách xử lý an toàn: ${item.action_guide}`
     speak(text)
   }
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
       {/* Header */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-950 via-slate-900 to-slate-950 p-6 sm:p-8 text-white shadow-xl border border-emerald-900/40 mb-8">
-        <div className="relative z-10">
-          <div className="inline-flex items-center gap-2 rounded-full bg-emerald-950/80 px-3 py-1 text-xs font-mono font-semibold text-emerald-300 border border-emerald-800 mb-4">
-            <BookOpen className="w-3.5 h-3.5 text-emerald-400" />
-            <span>CẨM NANG BÓC PHỐT CHIÊU TRÒ — KỸ NĂNG AN TOÀN SỐ</span>
-          </div>
-          <h1 className={`font-black tracking-tight text-white ${isElderMode ? 'text-3xl sm:text-5xl' : 'text-2xl sm:text-4xl'}`}>
-            10 Hồ sơ Lừa đảo Phổ biến
-          </h1>
-          <p className={`mt-2 text-slate-300 max-w-2xl leading-relaxed ${isElderMode ? 'text-xl' : 'text-sm sm:text-base'}`}>
-            Mỗi bài học chỉ mất đúng 60 giây để đọc hoặc nghe. Giúp rèn luyện phản xạ phát hiện bẫy thao túng tâm lý và cách từ chối dứt khoát.
-          </p>
+      <div className="text-center mb-8">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold mb-3 shadow-2xs">
+          <BookOpen className="w-3.5 h-3.5 text-emerald-600" />
+          <span>Kỹ Năng Số 01 Phút — Bóc Mẽ Chiêu Trò Lừa Đảo</span>
         </div>
+        <h1 className={`font-black tracking-tight text-slate-950 ${isElderMode ? 'text-3xl sm:text-4xl' : 'text-2xl sm:text-3xl'}`}>
+          10 Hồ Sơ Lừa Đảo Phổ Biến Tại Đồng Nai
+        </h1>
+        <p className={`text-slate-600 mt-2 max-w-2xl mx-auto leading-relaxed ${isElderMode ? 'text-xl' : 'text-sm sm:text-base'}`}>
+          Mỗi tình huống chỉ mất 60 giây để đọc hoặc nghe. Rèn luyện phản xạ phát hiện bẫy tâm lý và cách từ chối dứt khoát.
+        </p>
       </div>
 
       {/* Filter Tabs */}
-      <div className="mb-6 flex flex-wrap gap-2.5">
+      <div className="mb-6 flex flex-wrap justify-center gap-2">
         <Button
           type="button"
           variant={filterAudience === 'all' ? 'default' : 'outline'}
           size="sm"
           onClick={() => setFilterAudience('all')}
-          className="font-extrabold rounded-xl"
+          className="font-bold rounded-xl"
         >
-          Tất cả 10 hồ sơ
+          Tất cả 10 tình huống
         </Button>
         <Button
           type="button"
           variant={filterAudience === 'elderly' ? 'default' : 'outline'}
           size="sm"
           onClick={() => setFilterAudience('elderly')}
-          className="font-extrabold rounded-xl gap-2"
+          className="font-bold rounded-xl gap-1.5"
         >
-          <span>👴 Hồ sơ nhắm vào Người cao tuổi</span>
+          <span>👴 Người cao tuổi (65+)</span>
         </Button>
         <Button
           type="button"
           variant={filterAudience === 'student' ? 'default' : 'outline'}
           size="sm"
           onClick={() => setFilterAudience('student')}
-          className="font-extrabold rounded-xl gap-2"
+          className="font-bold rounded-xl gap-1.5"
         >
-          <span>🎓 Hồ sơ nhắm vào Học sinh THPT</span>
+          <span>🎓 Học sinh & Sinh viên</span>
         </Button>
       </div>
 
-      {/* Case Grid */}
+      {/* Scenarios Grid */}
       {loading ? (
-        <div className="text-center py-20 bg-slate-50 rounded-3xl border border-dashed border-slate-300">
+        <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-slate-300">
           <div className="inline-block h-8 w-8 animate-spin rounded-full border-3 border-emerald-600 border-r-transparent"></div>
-          <p className="mt-3 text-sm text-slate-600 font-bold font-mono">ĐANG MỞ TÀI LIỆU HỒ SƠ VỤ VIỆC...</p>
+          <p className="mt-3 text-sm text-slate-600 font-bold">Đang tải danh sách bài học...</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {scenarios.map((item) => (
             <Card
               key={item.id}
-              onClick={() => handleReadScenario(item)}
-              className="group hover:border-slate-900 hover:shadow-md transition-all cursor-pointer bg-white border-2 border-slate-200/90 rounded-2xl flex flex-col justify-between"
+              className="border border-slate-200/80 bg-white shadow-xs hover:shadow-md transition-all rounded-2xl overflow-hidden flex flex-col justify-between"
             >
-              <CardContent className="p-6 flex flex-col justify-between h-full space-y-4">
-                <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono font-black text-xs bg-slate-900 text-white px-2 py-0.5 rounded-md">
-                        #HS-{item.id < 10 ? `0${item.id}` : item.id}
-                      </span>
-                      <Badge
-                        variant={
-                          item.target_audience === 'elderly'
-                            ? 'warning'
-                            : item.target_audience === 'student'
-                            ? 'secondary'
-                            : 'outline'
-                        }
-                        className="font-bold text-[10px]"
-                      >
-                        {item.target_audience === 'elderly'
-                          ? 'Người cao tuổi (65+)'
-                          : item.target_audience === 'student'
-                          ? 'Học sinh THPT'
-                          : 'Cộng đồng'}
-                      </Badge>
-                    </div>
+              <CardContent className="p-5 sm:p-6 space-y-4">
+                <div className="flex items-center justify-between gap-2">
+                  <Badge
+                    variant={item.target_audience === 'elderly' ? 'warning' : 'secondary'}
+                    className="font-bold"
+                  >
+                    {item.target_audience === 'elderly' ? '👴 Người cao tuổi' : '🎓 Học sinh THPT'}
+                  </Badge>
 
-                    <span className="flex items-center gap-1 font-mono text-[11px] text-slate-400 font-bold">
-                      <Clock className="w-3.5 h-3.5 text-emerald-600" /> 01 PHÚT
-                    </span>
+                  <div className="flex items-center gap-1 text-slate-400 text-xs font-semibold">
+                    <Clock className="w-3.5 h-3.5" />
+                    <span>01 phút đọc</span>
                   </div>
+                </div>
 
-                  <h3 className={`font-black text-slate-950 group-hover:text-blue-700 transition-colors leading-snug ${
-                    isElderMode ? 'text-2xl' : 'text-lg'
-                  }`}>
+                <div>
+                  <h3 className={`font-black text-slate-900 leading-snug ${isElderMode ? 'text-2xl' : 'text-lg'}`}>
                     {item.title}
                   </h3>
-                  <p className="mt-2 text-xs sm:text-sm text-slate-600 line-clamp-2 leading-relaxed">
+                  <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-3">
                     {item.summary}
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                  <span className="text-xs font-black text-emerald-700 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                    Mở hồ sơ & Nghe đọc <ArrowRight className="w-3.5 h-3.5" />
-                  </span>
-                  <div className="p-2 rounded-xl bg-slate-100 text-slate-700 group-hover:bg-emerald-100 group-hover:text-emerald-800 transition-colors">
-                    <Volume2 className="w-4 h-4" />
+                {/* Key red flag banner */}
+                <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs sm:text-sm text-rose-900 space-y-1">
+                  <div className="font-bold flex items-center gap-1.5 text-rose-800">
+                    <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0" />
+                    <span>Dấu hiệu bóc trần chiêu trò:</span>
                   </div>
+                  <p className="font-medium">{item.key_warning}</p>
+                </div>
+
+                {/* Action Guide */}
+                <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs sm:text-sm text-emerald-900 space-y-1">
+                  <div className="font-bold flex items-center gap-1.5 text-emerald-800">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>Phản xạ 3 KHÔNG tức thì:</span>
+                  </div>
+                  <p className="font-medium">{item.action_guide}</p>
+                </div>
+
+                {/* Footer Controls */}
+                <div className="pt-2 flex items-center justify-between border-t border-slate-100 gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleReadScenario(item)}
+                    className="font-bold rounded-xl gap-1.5 border-slate-300 text-slate-700 hover:bg-slate-100"
+                  >
+                    <Volume2 className="w-4 h-4 text-blue-600" />
+                    <span>Nghe đọc bài học</span>
+                  </Button>
+
+                  <Button
+                    type="button"
+                    size="sm"
+                    onClick={() => setSelectedScenario(item)}
+                    className="font-bold rounded-xl bg-slate-900 hover:bg-slate-800 text-white gap-1"
+                  >
+                    <span>Xem chi tiết</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -155,92 +169,81 @@ export const EducationScreen: React.FC = () => {
         </div>
       )}
 
-      {/* Case Details Modal */}
+      {/* Modal chi tiết hồ sơ khi bấm vào */}
       {selectedScenario && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 p-4 backdrop-blur-xs animate-in fade-in duration-200">
-          <Card className="w-full max-w-2xl border-2 border-slate-300 shadow-2xl rounded-3xl overflow-hidden bg-white">
-            <div className="bg-slate-900 text-white p-6 flex items-start justify-between border-b border-slate-800">
-              <div>
-                <div className="flex items-center gap-2 mb-1.5">
-                  <span className="font-mono font-bold text-xs bg-emerald-500 text-slate-950 px-2 py-0.5 rounded">
-                    HỒ SƠ THỰC NGHIỆM #{selectedScenario.id}
-                  </span>
-                  <span className="font-mono text-xs text-slate-400 font-bold">01 PHÚT ĐỌC / NGHE</span>
+          <Card className={`w-full max-w-xl border-slate-200 shadow-2xl bg-white rounded-3xl overflow-hidden max-h-[90vh] flex flex-col ${isElderMode ? 'text-xl' : 'text-base'}`}>
+            <div className="p-6 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-600 text-white">
+                  <Shield className="w-5 h-5" />
                 </div>
-                <h2 className={`font-black text-white ${isElderMode ? 'text-3xl' : 'text-xl sm:text-2xl'}`}>
-                  {selectedScenario.title}
-                </h2>
+                <div>
+                  <h2 className="font-black text-slate-900 text-lg">Hồ Sơ Vụ Việc Chi Tiết</h2>
+                  <p className="text-xs text-slate-500 font-medium">{selectedScenario.target_audience === 'elderly' ? 'Đối tượng: Người cao tuổi' : 'Đối tượng: Học sinh & Sinh viên'}</p>
+                </div>
               </div>
-              <Button
-                variant="ghost"
-                size="icon"
+              <button
+                type="button"
                 onClick={() => {
-                  setSelectedScenario(null)
                   stopSpeaking()
+                  setSelectedScenario(null)
                 }}
-                className="text-slate-400 hover:text-white h-8 w-8"
+                className="p-2 rounded-full text-slate-400 hover:bg-slate-200 text-slate-700"
               >
-                <X className="h-5 w-5" />
-              </Button>
+                <X className="w-5 h-5" />
+              </button>
             </div>
 
-            <CardContent className="p-6 sm:p-8 space-y-4 max-h-[65vh] overflow-y-auto">
-              {/* Situation */}
-              <div className="rounded-2xl bg-slate-50 p-5 border border-slate-200 space-y-1.5">
-                <span className="text-xs font-mono font-bold text-slate-500 uppercase tracking-wider block">
-                  1. KỊCH BẢN KẺ LỪA ĐẢO SỬ DỤNG:
-                </span>
-                <p className={`text-slate-800 leading-relaxed font-medium ${isElderMode ? 'text-xl' : 'text-sm sm:text-base'}`}>
+            <div className="p-6 overflow-y-auto space-y-5">
+              <div>
+                <h3 className="text-xl font-black text-slate-950 mb-2">{selectedScenario.title}</h3>
+                <p className="text-slate-700 text-sm sm:text-base leading-relaxed bg-slate-50 p-4 rounded-2xl border border-slate-200">
                   {selectedScenario.summary}
                 </p>
               </div>
 
-              {/* Warning */}
-              <div className="rounded-2xl bg-rose-50 border-2 border-rose-300 p-5 space-y-1.5">
-                <span className="text-xs font-mono font-bold text-rose-800 uppercase tracking-wider flex items-center gap-1.5">
-                  <AlertTriangle className="w-4 h-4 text-rose-600" />
-                  2. DẤU HIỆU LẬT TẨY CỐT LÕI:
+              <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 space-y-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-rose-800 flex items-center gap-1.5">
+                  <AlertTriangle className="w-4 h-4 text-rose-600" /> Bẫy thao túng tâm lý:
                 </span>
-                <p className={`text-rose-950 font-black leading-relaxed ${isElderMode ? 'text-xl' : 'text-sm sm:text-base'}`}>
+                <p className="text-sm sm:text-base text-rose-950 font-medium leading-relaxed">
                   {selectedScenario.key_warning}
                 </p>
               </div>
 
-              {/* Action */}
-              <div className="rounded-2xl bg-emerald-50 border-2 border-emerald-300 p-5 space-y-1.5">
-                <span className="text-xs font-mono font-bold text-emerald-800 uppercase tracking-wider flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                  3. PHẢN XẠ HÀNH ĐỘNG AN TOÀN:
+              <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 space-y-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600" /> Nguyên tắc xử lý 3 KHÔNG:
                 </span>
-                <p className={`text-emerald-950 font-extrabold leading-relaxed ${isElderMode ? 'text-xl' : 'text-sm sm:text-base'}`}>
+                <p className="text-sm sm:text-base text-emerald-950 font-medium leading-relaxed">
                   {selectedScenario.action_guide}
                 </p>
               </div>
+            </div>
 
-              {/* Actions Footer */}
-              <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={isSpeaking ? stopSpeaking : () => handleReadScenario(selectedScenario)}
-                  className={`gap-2 font-bold ${isSpeaking ? 'border-rose-400 text-rose-600 bg-rose-50' : 'text-slate-800'}`}
-                >
-                  {isSpeaking ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4 text-emerald-600" />}
-                  <span>{isSpeaking ? 'Dừng đọc' : 'Nghe đọc bài học'}</span>
-                </Button>
+            <div className="p-5 border-t border-slate-100 bg-slate-50 flex items-center justify-between gap-3">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={isSpeaking ? stopSpeaking : () => handleReadScenario(selectedScenario)}
+                className="font-bold rounded-xl gap-2"
+              >
+                {isSpeaking ? <VolumeX className="w-4 h-4 text-rose-600" /> : <Volume2 className="w-4 h-4 text-blue-600" />}
+                <span>{isSpeaking ? 'Dừng đọc' : 'Đọc bài học'}</span>
+              </Button>
 
-                <Button
-                  type="button"
-                  onClick={() => {
-                    setSelectedScenario(null)
-                    stopSpeaking()
-                  }}
-                  className="font-bold px-6"
-                >
-                  Đã nắm rõ
-                </Button>
-              </div>
-            </CardContent>
+              <Button
+                type="button"
+                onClick={() => {
+                  stopSpeaking()
+                  setSelectedScenario(null)
+                }}
+                className="font-bold rounded-xl bg-slate-900 text-white"
+              >
+                Đã hiểu rõ
+              </Button>
+            </div>
           </Card>
         </div>
       )}

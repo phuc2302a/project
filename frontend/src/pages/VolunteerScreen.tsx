@@ -1,215 +1,264 @@
 import React, { useState, useEffect } from 'react'
-import { BarChart3, FileText, CheckCircle2, Activity } from 'lucide-react'
+import { CheckCircle2, Activity, MapPin, Search, AlertTriangle } from 'lucide-react'
 import { api } from '../services/api'
-import type { VolunteerStats } from '../types'
+import type { VolunteerStats, ReportResponse } from '../types'
 import { useElderMode } from '../contexts/ElderModeContext'
 import { Card, CardContent } from '../components/ui/card'
-import { Badge } from '../components/ui/badge'
 
 export const VolunteerScreen: React.FC = () => {
   const { isElderMode } = useElderMode()
 
   const [stats, setStats] = useState<VolunteerStats | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    async function fetchStats() {
+    async function fetchData() {
       setLoading(true)
       try {
-        const data = await api.getVolunteerStats()
-        setStats(data)
+        const statsData = await api.getVolunteerStats()
+        setStats(statsData)
       } catch (err) {
         console.error(err)
       } finally {
         setLoading(false)
       }
     }
-    fetchStats()
+    fetchData()
   }, [])
 
+  const reports: ReportResponse[] = stats?.recent_reports || []
+
+  // Filtered reports
+  const filteredReports = reports.filter((item) => {
+    return (
+      item.target.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.tactic_type.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.description.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  })
+
   return (
-    <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
-      {/* Command Header */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 p-6 sm:p-8 text-white shadow-xl border border-slate-800 mb-8">
-        <div className="relative z-10">
-          <div className="inline-flex items-center gap-2 rounded-full bg-blue-950/80 px-3 py-1 text-xs font-mono font-semibold text-blue-300 border border-blue-800 mb-4">
-            <Activity className="w-3.5 h-3.5 text-blue-400 animate-pulse" />
-            <span>TRUNG TÂM CHỈ HUY TUYÊN TRUYỀN CẤP XÃ / PHƯỜNG</span>
-          </div>
-          <h1 className={`font-black tracking-tight text-white ${isElderMode ? 'text-3xl sm:text-5xl' : 'text-2xl sm:text-4xl'}`}>
-            Bảng tin Đội Thanh Niên Tình Nguyện
-          </h1>
-          <p className={`mt-2 text-slate-300 max-w-2xl leading-relaxed ${isElderMode ? 'text-xl' : 'text-sm sm:text-base'}`}>
-            Dữ liệu tổng hợp từ các tin báo của người dân trên địa bàn tỉnh Đồng Nai nhằm phục vụ công tác phổ biến kiến thức phòng chống lừa đảo trực tiếp tại từng tổ dân phố, ấp và trường học.
-          </p>
+    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+      {/* Header */}
+      <div className="text-center mb-8">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold mb-3 shadow-2xs">
+          <Activity className="w-3.5 h-3.5 text-blue-600" />
+          <span>Trung Tâm Điều Phối Đội Hình Tình Nguyện Số — Tỉnh Đồng Nai</span>
         </div>
+        <h1 className={`font-black tracking-tight text-slate-950 ${isElderMode ? 'text-3xl sm:text-4xl' : 'text-2xl sm:text-3xl'}`}>
+          Bảng Tin Giám Sát Cảnh Báo An Toàn Mạng
+        </h1>
+        <p className={`text-slate-600 mt-2 max-w-2xl mx-auto leading-relaxed ${isElderMode ? 'text-xl' : 'text-sm sm:text-base'}`}>
+          Cung cấp dữ liệu thực tế cho Tổ công nghệ số cộng đồng và Đoàn thanh niên tuyên truyền trực tiếp tại các ấp, khu phố và trường học trên địa bàn tỉnh Đồng Nai.
+        </p>
       </div>
 
       {loading || !stats ? (
-        <div className="text-center py-20 bg-slate-50 rounded-3xl border border-dashed border-slate-300">
+        <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-slate-300">
           <div className="inline-block h-8 w-8 animate-spin rounded-full border-3 border-blue-600 border-r-transparent"></div>
-          <p className="mt-3 text-sm text-slate-600 font-bold font-mono">ĐANG ĐỒNG BỘ DỮ LIỆU ĐỊA BÀN ĐỒNG NAI...</p>
+          <p className="mt-3 text-sm text-slate-600 font-bold">Đang đồng bộ dữ liệu an ninh mạng Đồng Nai...</p>
         </div>
       ) : (
         <div className="space-y-6">
-          {/* Key Metric Command Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {/* Key Metric KPI Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Metric 1 */}
-            <Card className="border-2 border-slate-300 bg-white shadow-md rounded-2xl overflow-hidden">
-              <CardContent className="p-6">
-                <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider block">
-                  TỔNG LƯỢT BÁO CÁO TRONG THÁNG
+            <Card className="border border-slate-200 bg-white shadow-xs rounded-2xl overflow-hidden">
+              <CardContent className="p-5">
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">
+                  TỔNG TIN BÁO TRONG THÁNG
                 </span>
-                <div className="mt-3 flex items-baseline gap-3">
-                  <span className="text-5xl font-mono font-black text-slate-950">{stats.total_reports_month}</span>
-                  <span className="text-xs font-bold font-mono bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">
-                    +18% THÁNG TRƯỚC
+                <div className="mt-2 flex items-baseline gap-2">
+                  <span className="text-4xl font-mono font-black text-slate-950">{stats.total_reports_month}</span>
+                  <span className="text-xs font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">
+                    +18%
                   </span>
                 </div>
-                <p className="mt-2 text-xs text-slate-500 font-medium">Tiếp nhận từ 11 huyện, thành phố</p>
+                <p className="mt-2 text-xs text-slate-500 font-medium">Tiếp nhận từ 11 huyện & thành phố</p>
               </CardContent>
             </Card>
 
             {/* Metric 2: 35% fake links */}
-            <Card className="border-2 border-rose-300 bg-rose-50/40 shadow-md rounded-2xl overflow-hidden">
-              <CardContent className="p-6">
-                <span className="text-xs font-mono font-bold text-rose-800 uppercase tracking-wider block">
+            <Card className="border border-rose-200 bg-rose-50/50 shadow-xs rounded-2xl overflow-hidden">
+              <CardContent className="p-5">
+                <span className="text-xs font-bold text-rose-800 uppercase tracking-wider block">
                   ĐƯỜNG DẪN GIẢ MẠO (PHISHING)
                 </span>
-                <div className="mt-3 flex items-baseline gap-3">
-                  <span className="text-5xl font-mono font-black text-rose-600">{stats.fake_links_percentage}%</span>
-                  <span className="text-xs font-bold font-mono bg-rose-200 text-rose-900 px-2 py-0.5 rounded">
-                    {stats.summary_by_category.fake_link} VỤ VIỆC
-                  </span>
+                <div className="mt-2 flex items-baseline gap-2">
+                  <span className="text-4xl font-mono font-black text-rose-700">{stats.fake_links_percentage}%</span>
+                  <span className="text-xs font-bold text-rose-600">tỉ lệ cao</span>
                 </div>
-                <p className="mt-2 text-xs text-rose-700/80 font-medium">Thủ đoạn phổ biến nhất hiện nay</p>
+                <p className="mt-2 text-xs text-rose-800/80 font-medium">Chiếm hơn 1/3 tổng số vụ việc</p>
               </CardContent>
             </Card>
 
             {/* Metric 3 */}
-            <Card className="border-2 border-amber-300 bg-amber-50/40 shadow-md rounded-2xl overflow-hidden">
-              <CardContent className="p-6">
-                <span className="text-xs font-mono font-bold text-amber-800 uppercase tracking-wider block">
-                  MẠO DANH CƠ QUAN CÔNG AN
+            <Card className="border border-blue-200 bg-blue-50/50 shadow-xs rounded-2xl overflow-hidden">
+              <CardContent className="p-5">
+                <span className="text-xs font-bold text-blue-800 uppercase tracking-wider block">
+                  CHUYỂN GIAO CÔNG AN TỈNH
                 </span>
-                <div className="mt-3 flex items-baseline gap-3">
-                  <span className="text-5xl font-mono font-black text-amber-600">{stats.phone_scams_percentage}%</span>
-                  <span className="text-xs font-bold font-mono bg-amber-200 text-amber-900 px-2 py-0.5 rounded">
-                    {stats.summary_by_category.impersonation_police} VỤ VIỆC
+                <div className="mt-2 flex items-baseline gap-2">
+                  <span className="text-4xl font-mono font-black text-blue-700">100%</span>
+                  <span className="text-xs font-bold bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
+                    Đã cấp mã CA
                   </span>
                 </div>
-                <p className="mt-2 text-xs text-amber-700/80 font-medium">Nhắm chủ yếu vào người 65 tuổi</p>
+                <p className="mt-2 text-xs text-blue-800/80 font-medium">Hồ sơ xác thực tố giác tội phạm số</p>
+              </CardContent>
+            </Card>
+
+            {/* Metric 4 */}
+            <Card className="border border-slate-200 bg-white shadow-xs rounded-2xl overflow-hidden">
+              <CardContent className="p-5">
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">
+                  ĐỊA BÀN PHỦ SÓNG
+                </span>
+                <div className="mt-2 flex items-baseline gap-2">
+                  <span className="text-4xl font-mono font-black text-slate-900">11 / 11</span>
+                  <span className="text-xs font-bold text-emerald-600">Đạt 100%</span>
+                </div>
+                <p className="mt-2 text-xs text-slate-500 font-medium">Biên Hòa, Long Thành, Nhơn Trạch...</p>
               </CardContent>
             </Card>
           </div>
 
-          {/* Allocation Breakdown Chart */}
-          <Card className="border-2 border-slate-300 bg-white shadow-md rounded-3xl overflow-hidden">
-            <CardContent className="p-6 sm:p-8 space-y-6">
-              <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
-                <h3 className="font-black text-slate-950 text-base sm:text-lg flex items-center gap-2">
-                  <BarChart3 className="w-5 h-5 text-blue-600" />
-                  <span>Cơ cấu các kiểu lừa đảo nổi cộm tại địa bàn</span>
-                </h3>
-
-                <Badge variant="secondary" className="font-mono text-xs">
-                  CẬP NHẬT: THÁNG 11/2026
-                </Badge>
-              </div>
-
-              <div className="space-y-5">
-                <div>
-                  <div className="flex justify-between text-xs sm:text-sm font-bold mb-2">
-                    <span className="text-slate-800">1. Đường dẫn website giả mạo (Dịch vụ công, Ngân hàng)</span>
-                    <span className="text-rose-600 font-mono font-black text-sm">{stats.fake_links_percentage}% (42 vụ)</span>
-                  </div>
-                  <div className="h-3 w-full rounded-full bg-slate-100 overflow-hidden border border-slate-200">
-                    <div className="h-full bg-rose-500 rounded-full transition-all duration-700" style={{ width: `${stats.fake_links_percentage}%` }}></div>
-                  </div>
+          {/* Phân bổ theo địa bàn & Chiêu trò phổ biến */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Phân bổ theo địa bàn trọng điểm */}
+            <Card className="border border-slate-200 bg-white shadow-xs rounded-2xl">
+              <CardContent className="p-6 space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-bold text-slate-900 flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-blue-600" />
+                    <span>Phân bổ tin báo theo địa bàn tỉnh Đồng Nai</span>
+                  </h3>
+                  <span className="text-xs text-slate-500 font-mono">Tháng 11/2026</span>
                 </div>
 
-                <div>
-                  <div className="flex justify-between text-xs sm:text-sm font-bold mb-2">
-                    <span className="text-slate-800">2. Cuộc gọi giả danh cơ quan Công an, Viện kiểm sát</span>
-                    <span className="text-amber-600 font-mono font-black text-sm">{stats.phone_scams_percentage}% (36 vụ)</span>
-                  </div>
-                  <div className="h-3 w-full rounded-full bg-slate-100 overflow-hidden border border-slate-200">
-                    <div className="h-full bg-amber-500 rounded-full transition-all duration-700" style={{ width: `${stats.phone_scams_percentage}%` }}></div>
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between text-xs sm:text-sm font-bold mb-2">
-                    <span className="text-slate-800">3. Tuyển cộng tác viên đặt đơn Shopee / TikTok ("việc nhẹ lương cao")</span>
-                    <span className="text-blue-600 font-mono font-black text-sm">20% (24 vụ)</span>
-                  </div>
-                  <div className="h-3 w-full rounded-full bg-slate-100 overflow-hidden border border-slate-200">
-                    <div className="h-full bg-blue-600 rounded-full transition-all duration-700" style={{ width: '20%' }}></div>
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between text-xs sm:text-sm font-bold mb-2">
-                    <span className="text-slate-800">4. Tin nhắn báo người thân gặp tai nạn cần tiền viện phí gấp</span>
-                    <span className="text-purple-600 font-mono font-black text-sm">15% (18 vụ)</span>
-                  </div>
-                  <div className="h-3 w-full rounded-full bg-slate-100 overflow-hidden border border-slate-200">
-                    <div className="h-full bg-purple-600 rounded-full transition-all duration-700" style={{ width: '15%' }}></div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Real-time Case Log */}
-          <Card className="border-2 border-slate-300 bg-white shadow-md rounded-3xl overflow-hidden">
-            <CardContent className="p-6 sm:p-8">
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-4 mb-4">
-                <h3 className="font-black text-slate-950 text-base sm:text-lg flex items-center gap-2">
-                  <FileText className="w-5 h-5 text-blue-600" />
-                  <span>Các vụ việc mới nhất đã chuyển giao xác minh</span>
-                </h3>
-
-                <span className="font-mono text-xs font-bold text-slate-500">
-                  HIỂN THỊ {stats.recent_reports.length} BẢN GHI MỚI NHẤT
-                </span>
-              </div>
-
-              <div className="space-y-3">
-                {stats.recent_reports.map((report) => (
-                  <div key={report.id} className="rounded-2xl border-2 border-slate-200 p-5 hover:border-slate-400 hover:bg-slate-50/50 transition-all">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div className="flex items-center gap-2.5">
-                        <span className="font-mono font-black text-xs bg-slate-900 text-white px-2.5 py-1 rounded-lg">
-                          {report.id}
-                        </span>
-                        <span className="font-black text-slate-950 text-sm sm:text-base">{report.tactic_type}</span>
+                <div className="space-y-3">
+                  {[
+                    { name: 'TP. Biên Hòa (Khu đô thị & KCN)', percent: 42, color: 'bg-blue-600' },
+                    { name: 'Huyện Long Thành (Khu vực Sân bay)', percent: 22, color: 'bg-indigo-600' },
+                    { name: 'Huyện Nhơn Trạch (KCN tập trung)', percent: 18, color: 'bg-purple-600' },
+                    { name: 'Huyện Trảng Bom', percent: 12, color: 'bg-amber-600' },
+                    { name: 'Các huyện khác (Định Quán, Vĩnh Cửu...)', percent: 6, color: 'bg-slate-400' }
+                  ].map((district, idx) => (
+                    <div key={idx} className="space-y-1">
+                      <div className="flex justify-between text-xs font-semibold text-slate-700">
+                        <span>{district.name}</span>
+                        <span className="font-mono font-bold">{district.percent}%</span>
                       </div>
-
-                      {report.police_case_code && (
-                        <span className="inline-flex items-center gap-1.5 text-xs font-mono font-black text-blue-800 bg-blue-100 px-3 py-1 rounded-full border border-blue-300">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" />
-                          {report.police_case_code}
-                        </span>
-                      )}
+                      <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                        <div
+                          className={`h-full ${district.color} rounded-full`}
+                          style={{ width: `${district.percent}%` }}
+                        />
+                      </div>
                     </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
 
-                    <p className="mt-2 text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">
-                      {report.description}
-                    </p>
+            {/* Chiêu trò phổ biến nhất */}
+            <Card className="border border-slate-200 bg-white shadow-xs rounded-2xl">
+              <CardContent className="p-6 space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-bold text-slate-900 flex items-center gap-2">
+                    <AlertTriangle className="w-4 h-4 text-rose-600" />
+                    <span>Thủ đoạn lừa đảo phổ biến nhất</span>
+                  </h3>
+                  <span className="text-xs text-rose-700 bg-rose-50 px-2 py-0.5 rounded-full font-bold">
+                    Cần chú ý tuyên truyền
+                  </span>
+                </div>
 
-                    <div className="mt-4 flex flex-wrap items-center justify-between text-xs text-slate-500 pt-3 border-t border-slate-200">
-                      <span className="font-mono font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">
-                        Đối tượng: {report.target}
-                      </span>
-                      <span className="font-mono">
-                        Thời gian: {new Date(report.reported_at).toLocaleDateString('vi-VN')}
+                <div className="space-y-2.5">
+                  {[
+                    { tactic: 'Giả danh Cơ quan Công an / Viện kiểm sát', count: '45 vụ', target: 'Người cao tuổi' },
+                    { tactic: 'Tuyển CTV làm việc tại nhà Shopee / Nạp tiền', count: '38 vụ', target: 'Học sinh, sinh viên' },
+                    { tactic: 'SMS Brandname giả mạo hủy trừ tiền', count: '24 vụ', target: 'Người dùng e-banking' },
+                    { tactic: 'Mạo danh Bệnh viện con đang cấp cứu mổ gấp', count: '13 vụ', target: 'Phụ huynh' }
+                  ].map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="p-3 bg-slate-50 rounded-xl border border-slate-200/80 flex items-center justify-between gap-3 text-xs sm:text-sm"
+                    >
+                      <div className="space-y-0.5">
+                        <div className="font-bold text-slate-900">{item.tactic}</div>
+                        <div className="text-xs text-slate-500">Đối tượng nhắm tới: {item.target}</div>
+                      </div>
+                      <span className="font-mono font-bold text-rose-700 bg-rose-100/60 px-2 py-1 rounded-md shrink-0">
+                        {item.count}
                       </span>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Danh sách phản ánh mới nhất của người dân */}
+          <Card className="border border-slate-200 bg-white shadow-xs rounded-2xl overflow-hidden">
+            <div className="p-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div>
+                <h3 className="font-bold text-slate-900 text-base">
+                  Nhật Ký Phản Ánh Mới Nhất Trên Địa Bàn Đồng Nai
+                </h3>
+                <p className="text-xs text-slate-500">Dữ liệu đối soát trực tiếp từ cổng gửi tin của nhân dân</p>
               </div>
-            </CardContent>
+
+              {/* Search Bar */}
+              <div className="relative w-full sm:w-64">
+                <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+                <input
+                  type="text"
+                  placeholder="Tìm số điện thoại, link..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-9 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-300 rounded-xl text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:bg-white"
+                />
+              </div>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse text-xs sm:text-sm">
+                <thead>
+                  <tr className="border-b border-slate-200 bg-slate-50/70 text-slate-500 font-bold uppercase text-[11px] tracking-wider">
+                    <th className="py-3 px-4">Thời gian</th>
+                    <th className="py-3 px-4">Mục tiêu nghi vấn</th>
+                    <th className="py-3 px-4">Hình thức chiêu trò</th>
+                    <th className="py-3 px-4">Mã hồ sơ Công an</th>
+                    <th className="py-3 px-4 text-right">Trạng thái</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 text-slate-700">
+                  {filteredReports.slice(0, 10).map((rep) => (
+                    <tr key={rep.id} className="hover:bg-slate-50/80 transition-colors">
+                      <td className="py-3 px-4 whitespace-nowrap text-slate-400 font-mono text-xs">
+                        {new Date(rep.reported_at).toLocaleDateString('vi-VN')}
+                      </td>
+                      <td className="py-3 px-4 font-mono font-bold text-slate-900">
+                        {rep.target}
+                      </td>
+                      <td className="py-3 px-4 font-medium text-slate-800">
+                        {rep.tactic_type}
+                      </td>
+                      <td className="py-3 px-4 font-mono text-blue-700 font-bold">
+                        {rep.police_case_code || '---'}
+                      </td>
+                      <td className="py-3 px-4 text-right whitespace-nowrap">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                          <CheckCircle2 className="w-3.5 h-3.5" /> Đã tiếp nhận
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </Card>
         </div>
       )}

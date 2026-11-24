@@ -1,7 +1,6 @@
 import React from 'react'
-import { Shield, PhoneCall, Sparkles, BookOpen, CheckSquare, Users, Radio } from 'lucide-react'
+import { Shield, PhoneCall, Sparkles, Search, AlertOctagon, BookOpen, Award, BarChart3, Phone } from 'lucide-react'
 import { useElderMode } from '../contexts/ElderModeContext'
-import { Button } from './ui/button'
 
 interface Props {
   activeTab: string
@@ -13,63 +12,66 @@ export const Navbar: React.FC<Props> = ({ activeTab, setActiveTab, onOpenSOS }) 
   const { isElderMode, toggleElderMode } = useElderMode()
 
   const navItems = [
-    { id: 'check', label: 'Bàn giám định', icon: Shield },
-    { id: 'report', label: 'Tố giác lừa đảo', icon: null },
-    { id: 'education', label: 'Hồ sơ 01 phút', icon: BookOpen },
-    { id: 'quiz', label: 'Thực hành phản xạ', icon: CheckSquare },
-    { id: 'volunteer', label: 'Trung tâm chỉ huy', icon: Users }
+    { id: 'check', label: 'Tra cứu nhanh', icon: Search },
+    { id: 'report', label: 'Tố giác lừa đảo', icon: AlertOctagon },
+    { id: 'education', label: 'Kỹ năng 01 phút', icon: BookOpen },
+    { id: 'quiz', label: 'Thử thách nhận diện', icon: Award },
+    { id: 'volunteer', label: 'Đội tình nguyện', icon: BarChart3 }
   ]
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-200/90 bg-white/95 backdrop-blur-md shadow-xs">
-      {/* Top micro-bar: Civic Intelligence Status */}
-      <div className="bg-slate-900 text-slate-300 px-4 py-1 text-[11px] font-medium hidden sm:flex items-center justify-between border-b border-slate-800">
-        <div className="flex items-center gap-3">
-          <span className="flex items-center gap-1.5 text-emerald-400 font-mono">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
+      {/* Top Banner: Emergency helpline */}
+      <div className="bg-slate-900 text-slate-200 text-xs py-1.5 px-4">
+        <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-3">
+            <span className="font-semibold text-white flex items-center gap-1.5">
+              <Phone className="w-3.5 h-3.5 text-amber-400" /> Đường dây nóng:
             </span>
-            KÊNH GIÁM ĐỊNH TRỰC TUYẾN 24/7
-          </span>
-          <span className="text-slate-600">|</span>
-          <span className="text-slate-400">Công an tỉnh & Tỉnh đoàn Đồng Nai</span>
-        </div>
-        <div className="flex items-center gap-4 text-slate-400 font-mono text-[10px]">
-          <span>CẬP NHẬT: 120 VỤ BÁO CÁO / THÁNG</span>
-          <span>ĐƯỜNG DẪN GIẢ MẠO: 35%</span>
+            <span className="text-slate-300">
+              Công an tỉnh Đồng Nai: <a href="tel:0693480113" className="font-bold text-amber-300 hover:underline">0693.480.113</a>
+            </span>
+            <span className="text-slate-600 hidden sm:inline">|</span>
+            <span className="text-slate-300 hidden sm:inline">
+              Bảo vệ trẻ em: <a href="tel:111" className="font-bold text-emerald-400 hover:underline">111</a>
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[11px] font-medium text-emerald-300 border border-emerald-500/20">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              Đồng bộ dữ liệu an ninh mạng 2026
+            </span>
+          </div>
         </div>
       </div>
 
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 sm:px-6">
-        {/* Brand identity */}
+      {/* Main Navbar */}
+      <div className="max-w-6xl mx-auto px-4 py-3 sm:px-6 flex items-center justify-between gap-4">
+        {/* Brand */}
         <div
           onClick={() => setActiveTab('check')}
-          className="flex cursor-pointer items-center gap-3 select-none group"
+          className="flex items-center gap-3 cursor-pointer select-none group"
         >
-          <div className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-slate-900 to-blue-950 text-white shadow-md transition-transform group-hover:scale-105 border border-slate-700/50">
-            <Shield className="h-6 w-6 text-blue-400" />
-            <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-emerald-500 ring-2 ring-white">
-              <Radio className="h-2 w-2 text-white animate-pulse" />
-            </span>
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-blue-700 via-indigo-600 to-blue-500 text-white shadow-sm transition-transform group-hover:scale-105">
+            <Shield className="h-5 w-5" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xl font-black tracking-tight text-slate-950 font-mono">
+              <span className="text-lg sm:text-xl font-black tracking-tight text-slate-950">
                 LÁ CHẮN SỐ
               </span>
-              <span className="rounded-md bg-blue-100 text-blue-900 border border-blue-300 font-extrabold text-[10px] px-1.5 py-0.2 tracking-wider">
-                ĐỒNG NAI
+              <span className="bg-blue-50 text-blue-700 text-xs font-bold px-2 py-0.5 rounded-full border border-blue-200">
+                Đồng Nai
               </span>
             </div>
-            <p className="text-[11px] font-semibold text-slate-500 tracking-tight hidden sm:block">
-              Nền tảng kiểm định rủi ro & cứu trợ an toàn số
+            <p className="text-[11px] text-slate-500 hidden sm:block font-medium">
+              Nền tảng phòng ngừa & nhận diện lừa đảo trực tuyến
             </p>
           </div>
         </div>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-1 bg-slate-100/90 p-1 rounded-2xl border border-slate-200/90 shadow-2xs">
+        {/* Desktop Nav Tabs */}
+        <nav className="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/60">
           {navItems.map((item) => {
             const Icon = item.icon
             const isActive = activeTab === item.id
@@ -77,64 +79,69 @@ export const Navbar: React.FC<Props> = ({ activeTab, setActiveTab, onOpenSOS }) 
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold transition-all ${
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 text-xs sm:text-sm font-semibold rounded-lg transition-all ${
                   isActive
-                    ? 'bg-white text-slate-950 shadow-sm border border-slate-200/60'
+                    ? 'bg-white text-blue-700 shadow-xs font-bold'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
                 }`}
               >
-                {Icon && <Icon className={`w-4 h-4 ${isActive ? 'text-blue-600' : 'text-slate-400'}`} />}
+                <Icon className={`w-4 h-4 ${isActive ? 'text-blue-600' : 'text-slate-400'}`} />
                 <span>{item.label}</span>
               </button>
             )
           })}
         </nav>
 
-        {/* Action Controls */}
-        <div className="flex items-center gap-2.5">
+        {/* Right Actions */}
+        <div className="flex items-center gap-2 sm:gap-3">
           {/* Elder Mode Toggle */}
           <button
             type="button"
             onClick={toggleElderMode}
-            className={`flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs sm:text-sm font-extrabold transition-all border shadow-2xs ${
+            title="Bật/Tắt chế độ cỡ chữ lớn cho người cao tuổi"
+            className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-bold border transition-all ${
               isElderMode
-                ? 'bg-amber-100 text-amber-950 border-amber-300 ring-2 ring-amber-300'
-                : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                ? 'bg-amber-100 text-amber-950 border-amber-400 shadow-xs ring-2 ring-amber-200'
+                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50 shadow-2xs'
             }`}
-            title="Bật/Tắt giao diện chữ lớn cho người cao tuổi"
           >
-            <Sparkles className={`w-4 h-4 ${isElderMode ? 'text-amber-600' : 'text-slate-400'}`} />
-            <span>{isElderMode ? 'Chữ to 65+ (ĐANG BẬT)' : 'Chữ to 65+'}</span>
+            <Sparkles className={`w-4 h-4 ${isElderMode ? 'text-amber-700' : 'text-slate-400'}`} />
+            <span className="hidden sm:inline">Chế độ người cao tuổi</span>
+            <span className="sm:hidden font-mono text-xs">{isElderMode ? 'Cỡ chữ: Lớn' : 'Chữ lớn'}</span>
           </button>
 
-          {/* Emergency SOS Button */}
-          <Button
+          {/* SOS Button: Reassuring and easy to locate */}
+          <button
             type="button"
-            variant="danger-solid"
             onClick={onOpenSOS}
-            className="gap-2 font-black shadow-md radar-badge h-10 px-4 rounded-xl active:scale-95 transition-transform"
+            className="flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all hover:shadow active:scale-98 ring-2 ring-rose-200"
           >
-            <PhoneCall className="w-4 h-4" />
-            <span className="tracking-tight">HỎI NGƯỜI THÂN</span>
-          </Button>
+            <PhoneCall className="w-4 h-4 animate-bounce" />
+            <span>Hỏi người thân (SOS)</span>
+          </button>
         </div>
       </div>
 
-      {/* Mobile Navigation */}
-      <div className="flex lg:hidden border-t border-slate-200 bg-slate-50 overflow-x-auto px-2 py-1.5 gap-1.5 text-xs">
-        {navItems.map((item) => (
-          <button
-            key={item.id}
-            onClick={() => setActiveTab(item.id)}
-            className={`flex-1 py-2 rounded-xl px-3 text-center font-bold whitespace-nowrap transition-colors ${
-              activeTab === item.id
-                ? 'bg-slate-900 text-white shadow-xs'
-                : 'text-slate-600 hover:bg-slate-200/60'
-            }`}
-          >
-            {item.label}
-          </button>
-        ))}
+      {/* Mobile Nav Tabs Bar */}
+      <div className="flex lg:hidden border-t border-slate-200/80 bg-slate-50/90 overflow-x-auto px-2 py-2 gap-1.5 text-xs no-scrollbar">
+        {navItems.map((item) => {
+          const Icon = item.icon
+          const isActive = activeTab === item.id
+          return (
+            <button
+              key={item.id}
+              onClick={() => setActiveTab(item.id)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold whitespace-nowrap transition-colors ${
+                isActive
+                  ? 'bg-blue-700 text-white shadow-xs font-bold'
+                  : 'text-slate-700 bg-white border border-slate-200/60 hover:bg-slate-100'
+              }`}
+            >
+              <Icon className="w-3.5 h-3.5" />
+              <span>{item.label}</span>
+            </button>
+          )
+        })}
       </div>
     </header>
   )

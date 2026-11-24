@@ -1,47 +1,20 @@
 @import "tailwindcss";
 
 @layer base {
+  :root {
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+
   body {
+    font-family: var(--font-sans);
     background-color: #f8fafc;
     color: #0f172a;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
-/* Background Cyber Grid Pattern */
-.bg-grid-pattern {
-  background-size: 32px 32px;
-  background-image: 
-    linear-gradient(to right, rgba(148, 163, 184, 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
-}
-
-.bg-dot-pattern {
-  background-size: 20px 20px;
-  background-image: radial-gradient(circle, rgba(148, 163, 184, 0.15) 1px, transparent 1px);
-}
-
-/* Radar Pulse Animation */
-@keyframes radar-pulse {
-  0% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.7);
-  }
-  70% {
-    transform: scale(1);
-    box-shadow: 0 0 0 10px rgba(225, 29, 72, 0);
-  }
-  100% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(225, 29, 72, 0);
-  }
-}
-
-.radar-badge {
-  animation: radar-pulse 2s infinite;
-}
-
-/* Tùy chỉnh chế độ người cao tuổi (Elder Mode 65+) */
+/* Chế độ tiếp cận cho người cao tuổi (Elderly Accessible Mode) */
 .elder-mode {
   font-size: 1.25rem !important;
   line-height: 1.8 !important;
@@ -50,16 +23,19 @@
 .elder-mode h1 {
   font-size: 2.25rem !important;
   line-height: 1.3 !important;
+  font-weight: 800 !important;
 }
 
 .elder-mode h2 {
-  font-size: 1.75rem !important;
+  font-size: 1.875rem !important;
   line-height: 1.35 !important;
+  font-weight: 800 !important;
 }
 
 .elder-mode h3 {
   font-size: 1.5rem !important;
   line-height: 1.4 !important;
+  font-weight: 700 !important;
 }
 
 .elder-mode button,
@@ -72,21 +48,10 @@
 
 .elder-mode .text-xs,
 .elder-mode .text-sm {
-  font-size: 1rem !important;
+  font-size: 1.1rem !important;
+  line-height: 1.6 !important;
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 9999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+.elder-mode .elder-hide {
+  display: none !important;
 }
