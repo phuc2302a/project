@@ -157,7 +157,6 @@ export const CheckScreen: React.FC<Props> = ({ onOpenSOSWithInfo }) => {
           <span className="bg-gradient-to-r from-violet-300 via-rose-300 to-indigo-300 bg-clip-text text-transparent">
             lừa đảo
           </span>{' '}
-          bạn có thể tin cậy.
         </h1>
         <p
           className={`mt-4 text-neutral-400 max-w-xl mx-auto leading-relaxed ${
