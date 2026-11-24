@@ -1,122 +1,82 @@
 import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { ElderModeProvider } from './contexts/ElderModeContext'
+import { Navbar } from './components/Navbar'
+import { SOSModal } from './components/SOSModal'
+import { CheckScreen } from './pages/CheckScreen'
+import { ReportScreen } from './pages/ReportScreen'
+import { EducationScreen } from './pages/EducationScreen'
+import { QuizScreen } from './pages/QuizScreen'
+import { VolunteerScreen } from './pages/VolunteerScreen'
+import { Phone, Shield, ExternalLink } from 'lucide-react'
 
-function App() {
-  const [count, setCount] = useState(0)
+export function AppContent() {
+  const [activeTab, setActiveTab] = useState('check')
+  const [isSOSOpen, setIsSOSOpen] = useState(false)
+  const [suspectInfo, setSuspectInfo] = useState('')
+
+  const handleOpenSOS = (info: string = '') => {
+    setSuspectInfo(info)
+    setIsSOSOpen(true)
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
+    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans">
+      {/* Navbar điều hướng */}
+      <Navbar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        onOpenSOS={() => handleOpenSOS('')}
+      />
+
+      {/* Nội dung trang tương ứng */}
+      <main className="flex-1 pb-16">
+        {activeTab === 'check' && (
+          <CheckScreen onOpenSOSWithInfo={(info) => handleOpenSOS(info)} />
+        )}
+        {activeTab === 'report' && <ReportScreen />}
+        {activeTab === 'education' && <EducationScreen />}
+        {activeTab === 'quiz' && <QuizScreen />}
+        {activeTab === 'volunteer' && <VolunteerScreen />}
+      </main>
+
+      {/* Footer & Đường dây nóng khẩn cấp */}
+      <footer className="border-t bg-white py-8 text-center text-sm text-gray-500">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <div className="flex flex-wrap items-center justify-center gap-6 text-sm font-semibold text-gray-700 mb-4">
+            <span className="flex items-center gap-1.5 text-red-600 font-bold">
+              <Phone className="w-4 h-4" /> Tổng đài Quốc gia Bảo vệ Trẻ em: 111
+            </span>
+            <span className="flex items-center gap-1.5 text-blue-700 font-bold">
+              <Shield className="w-4 h-4" /> Trực ban Công an tỉnh Đồng Nai: 0693.480.113
+            </span>
+            <span className="flex items-center gap-1.5 text-emerald-700 font-bold">
+              <ExternalLink className="w-4 h-4" /> Cục An toàn thông tin (AIS)
+            </span>
+          </div>
+
+          <p className="font-bold text-gray-800">
+            Dự án LÁ CHẮN SỐ — Hội thi Tin học / Hackathon Đồng Nai 2026
+          </p>
+          <p className="text-xs text-gray-400 mt-1">
+            Ứng dụng hỗ trợ kiểm tra an toàn số, nâng cao kỹ năng phòng chống lừa đảo trực tuyến cho cộng đồng.
           </p>
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+      </footer>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      {/* Modal khẩn cấp Hỏi người thân */}
+      <SOSModal
+        isOpen={isSOSOpen}
+        onClose={() => setIsSOSOpen(false)}
+        suspectInfo={suspectInfo}
+      />
+    </div>
   )
 }
 
-export default App
+export default function App() {
+  return (
+    <ElderModeProvider>
+      <AppContent />
+    </ElderModeProvider>
+  )
+}

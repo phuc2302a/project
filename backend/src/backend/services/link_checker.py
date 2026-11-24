@@ -1,10 +1,10 @@
 import json
-import os
 import tldextract
 import Levenshtein
+from backend.core.config import DATA_DIR
 from backend.schemas.analysis import RiskLevel
 
-DATA_PATH = os.path.join(os.path.dirname(__file__), "../../data/legitimate_domains.json")
+DATA_PATH = DATA_DIR / "legitimate_domains.json"
 
 def load_legitimate_domains() -> list[str]:
     try:

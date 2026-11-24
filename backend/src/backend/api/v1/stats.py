@@ -1,17 +1,17 @@
 import json
-import os
 from fastapi import APIRouter
+from backend.core.config import DATA_DIR
 from backend.schemas.stats import VolunteerDashboardStats, CategoryStats
 from backend.schemas.report import ReportResponse
 
 router = APIRouter(prefix="/stats", tags=["Volunteer Dashboard"])
 
-DATA_PATH = os.path.join(os.path.dirname(__file__), "../../../data/sample_reports.json")
+DATA_PATH = DATA_DIR / "sample_reports.json"
 
 @router.get("", response_model=VolunteerDashboardStats)
 def get_volunteer_stats() -> VolunteerDashboardStats:
     """Thống kê các kiểu lừa đảo tại địa phương dành cho Đội tình nguyện (120 lượt báo cáo, 35% link giả)"""
-    if os.path.exists(DATA_PATH):
+    if DATA_PATH.exists():
         with open(DATA_PATH, "r", encoding="utf-8") as f:
             data = json.load(f)
             return VolunteerDashboardStats(

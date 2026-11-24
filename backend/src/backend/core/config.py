@@ -1,5 +1,9 @@
-import os
+from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# Đường dẫn tuyệt đối đến thư mục gốc của backend và thư mục data
+BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
+DATA_DIR = BASE_DIR / "data"
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")

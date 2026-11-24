@@ -12,17 +12,21 @@ from backend.api.v1.reports import router as reports_router
 from backend.api.v1.stats import router as stats_router
 from backend.api.v1.scenarios import router as scenarios_router
 
+# Tạo các bảng ngay khi import module
+Base.metadata.create_all(bind=engine)
+
 def seed_initial_data():
-    """Khởi tạo bảng và nạp dữ liệu mẫu ban đầu nếu database trống"""
-    Base.metadata.create_all(bind=engine)
+    """Nạp dữ liệu mẫu ban đầu nếu database trống"""
     db = SessionLocal()
     try:
-        if db.query(Blacklist).count() == 0:
-            sample_file = os.path.join(os.path.dirname(__file__), "../data/sample_reports.json")
-            if os.path.exists(sample_file):
-                with open(sample_file, "r", encoding="utf-8") as f:
-                    data = json.load(f)
-                    for r in data.get("recent_reports", []):
+        from backend.core.config import DATA_DIR
+        sample_file = DATA_DIR / "sample_reports.json"
+        if os.path.exists(sample_file):
+            with open(sample_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                for r in data.get("recent_reports", []):
+                    existing = db.query(Blacklist).filter(Blacklist.target == r["target"]).first()
+                    if not existing:
                         db.add(Blacklist(
                             target=r["target"],
                             target_type=r["target_type"],
@@ -30,13 +34,12 @@ def seed_initial_data():
                             reason=r["tactic_type"],
                             reports_count=5
                         ))
-                    db.commit()
+                db.commit()
     finally:
         db.close()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Khởi tạo DB khi ứng dụng chạy
     seed_initial_data()
     yield
 

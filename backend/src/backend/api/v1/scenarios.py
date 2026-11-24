@@ -1,18 +1,18 @@
 import json
-import os
 from fastapi import APIRouter, Query
+from backend.core.config import DATA_DIR
 from backend.schemas.stats import ScenarioItem
 
 router = APIRouter(prefix="/scenarios", tags=["01-Minute Lessons & Quiz"])
 
-DATA_PATH = os.path.join(os.path.dirname(__file__), "../../../data/sample_scenarios.json")
+DATA_PATH = DATA_DIR / "sample_scenarios.json"
 
 @router.get("", response_model=list[ScenarioItem])
 def get_scenarios(
     audience: str | None = Query(None, description="Lọc theo đối tượng: elderly, student, general")
 ) -> list[ScenarioItem]:
     """Lấy danh sách 10 tình huống lừa đảo phổ biến để học kỹ năng 01 phút"""
-    if not os.path.exists(DATA_PATH):
+    if not DATA_PATH.exists():
         return []
 
     with open(DATA_PATH, "r", encoding="utf-8") as f:
