@@ -1,6 +1,8 @@
 import React from 'react'
 import { Shield, PhoneCall, Sparkles, BookOpen, CheckSquare, Users } from 'lucide-react'
 import { useElderMode } from '../contexts/ElderModeContext'
+import { Button } from './ui/button'
+import { Badge } from './ui/badge'
 
 interface Props {
   activeTab: string
@@ -11,147 +13,110 @@ interface Props {
 export const Navbar: React.FC<Props> = ({ activeTab, setActiveTab, onOpenSOS }) => {
   const { isElderMode, toggleElderMode } = useElderMode()
 
+  const navItems = [
+    { id: 'check', label: 'Kiểm tra', icon: Shield },
+    { id: 'report', label: 'Báo cáo', icon: null },
+    { id: 'education', label: 'Bài học 01p', icon: BookOpen },
+    { id: 'quiz', label: 'Trắc nghiệm', icon: CheckSquare },
+    { id: 'volunteer', label: 'Đội tình nguyện', icon: Users }
+  ]
+
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-white/95 backdrop-blur shadow-sm">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
-        {/* Logo */}
+    <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/90 backdrop-blur-md">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 sm:px-6">
+        {/* Brand identity */}
         <div
           onClick={() => setActiveTab('check')}
-          className="flex cursor-pointer items-center gap-3"
+          className="flex cursor-pointer items-center gap-3 select-none"
         >
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-600 text-white shadow-md">
-            <Shield className="h-7 w-7" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 text-white shadow-xs transition-transform hover:scale-105">
+            <Shield className="h-5 w-5 text-blue-400" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xl font-black tracking-tight text-blue-900 sm:text-2xl">
+              <span className="text-lg font-black tracking-tight text-slate-900 sm:text-xl">
                 LÁ CHẮN SỐ
               </span>
-              <span className="rounded bg-blue-100 px-2 py-0.5 text-xs font-bold text-blue-800">
+              <Badge variant="secondary" className="font-bold text-[10px] tracking-wider uppercase bg-blue-50 text-blue-800 border-blue-200">
                 ĐỒNG NAI
-              </span>
+              </Badge>
             </div>
-            <p className="text-xs text-gray-500 hidden sm:block">An toàn thông tin & Phòng chống lừa đảo</p>
+            <p className="text-[11px] font-medium text-slate-500 hidden sm:block">
+              Hệ thống phòng chống lừa đảo trực tuyến
+            </p>
           </div>
         </div>
 
-        {/* Menu Điều hướng */}
-        <nav className="hidden md:flex items-center gap-1 font-medium text-gray-700">
-          <button
-            onClick={() => setActiveTab('check')}
-            className={`rounded-lg px-3 py-2 transition-colors ${
-              activeTab === 'check' ? 'bg-blue-50 text-blue-700 font-bold' : 'hover:bg-gray-100'
-            }`}
-          >
-            Kiểm tra nhanh
-          </button>
-          <button
-            onClick={() => setActiveTab('report')}
-            className={`rounded-lg px-3 py-2 transition-colors ${
-              activeTab === 'report' ? 'bg-blue-50 text-blue-700 font-bold' : 'hover:bg-gray-100'
-            }`}
-          >
-            Báo cáo lừa đảo
-          </button>
-          <button
-            onClick={() => setActiveTab('education')}
-            className={`flex items-center gap-1.5 rounded-lg px-3 py-2 transition-colors ${
-              activeTab === 'education' ? 'bg-blue-50 text-blue-700 font-bold' : 'hover:bg-gray-100'
-            }`}
-          >
-            <BookOpen className="w-4 h-4" />
-            Bài học 01 phút
-          </button>
-          <button
-            onClick={() => setActiveTab('quiz')}
-            className={`flex items-center gap-1.5 rounded-lg px-3 py-2 transition-colors ${
-              activeTab === 'quiz' ? 'bg-blue-50 text-blue-700 font-bold' : 'hover:bg-gray-100'
-            }`}
-          >
-            <CheckSquare className="w-4 h-4" />
-            Trắc nghiệm
-          </button>
-          <button
-            onClick={() => setActiveTab('volunteer')}
-            className={`flex items-center gap-1.5 rounded-lg px-3 py-2 transition-colors ${
-              activeTab === 'volunteer' ? 'bg-blue-50 text-blue-700 font-bold' : 'hover:bg-gray-100'
-            }`}
-          >
-            <Users className="w-4 h-4" />
-            Đội tình nguyện
-          </button>
+        {/* Desktop Navigation Tabs */}
+        <nav className="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/60">
+          {navItems.map((item) => {
+            const Icon = item.icon
+            const isActive = activeTab === item.id
+            return (
+              <button
+                key={item.id}
+                onClick={() => setActiveTab(item.id)}
+                className={`flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-sm font-semibold transition-all ${
+                  isActive
+                    ? 'bg-white text-slate-900 shadow-xs'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+                }`}
+              >
+                {Icon && <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-blue-600' : 'text-slate-400'}`} />}
+                <span>{item.label}</span>
+              </button>
+            )
+          })}
         </nav>
 
-        {/* Nút Người cao tuổi & Nút Hỏi người thân */}
+        {/* Action Controls */}
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* Nút gạt Chế độ Người cao tuổi */}
-          <button
+          {/* Elder Mode Toggle */}
+          <Button
+            type="button"
+            variant={isElderMode ? 'secondary' : 'outline'}
+            size="sm"
             onClick={toggleElderMode}
-            className={`flex items-center gap-1.5 rounded-xl border-2 px-3 py-2 text-sm font-bold transition-all shadow-sm ${
+            className={`font-bold transition-all ${
               isElderMode
-                ? 'border-amber-500 bg-amber-100 text-amber-900 ring-2 ring-amber-300'
-                : 'border-gray-200 bg-gray-50 text-gray-700 hover:bg-gray-100'
+                ? 'bg-amber-100 text-amber-950 border-amber-300 ring-2 ring-amber-200'
+                : 'text-slate-700'
             }`}
-            title="Bật/Tắt giao diện chữ to cho người cao tuổi"
+            title="Bật/Tắt giao diện chữ lớn cho người cao tuổi"
           >
-            <Sparkles className={`w-4 h-4 ${isElderMode ? 'text-amber-600' : 'text-gray-500'}`} />
-            <span className="hidden sm:inline">Chữ to (65+)</span>
-            <span className="sm:hidden">65+</span>
-          </button>
+            <Sparkles className={`w-3.5 h-3.5 ${isElderMode ? 'text-amber-600' : 'text-slate-400'}`} />
+            <span>Chữ to (65+)</span>
+          </Button>
 
-          {/* Nút khẩn cấp "Hỏi người thân" */}
-          <button
+          {/* Emergency SOS Button */}
+          <Button
+            type="button"
+            variant="danger-solid"
+            size="sm"
             onClick={onOpenSOS}
-            className="flex items-center gap-2 rounded-xl bg-red-600 px-3.5 py-2 text-white font-bold shadow-md hover:bg-red-700 active:scale-95 transition-all animate-pulse"
+            className="gap-2 font-bold shadow-xs active:scale-95"
           >
-            <PhoneCall className="w-5 h-5" />
-            <span className="text-sm sm:text-base">Hỏi người thân</span>
-          </button>
+            <PhoneCall className="w-4 h-4 animate-bounce" />
+            <span>Hỏi người thân</span>
+          </Button>
         </div>
       </div>
 
-      {/* Thanh điều hướng Mobile (dưới màn hình hẹp) */}
-      <div className="flex md:hidden border-t overflow-x-auto px-2 py-1.5 gap-1 bg-gray-50 text-xs">
-        <button
-          onClick={() => setActiveTab('check')}
-          className={`flex-1 py-1.5 rounded px-2 text-center whitespace-nowrap ${
-            activeTab === 'check' ? 'bg-blue-600 text-white font-bold' : 'text-gray-700'
-          }`}
-        >
-          Kiểm tra
-        </button>
-        <button
-          onClick={() => setActiveTab('report')}
-          className={`flex-1 py-1.5 rounded px-2 text-center whitespace-nowrap ${
-            activeTab === 'report' ? 'bg-blue-600 text-white font-bold' : 'text-gray-700'
-          }`}
-        >
-          Báo cáo
-        </button>
-        <button
-          onClick={() => setActiveTab('education')}
-          className={`flex-1 py-1.5 rounded px-2 text-center whitespace-nowrap ${
-            activeTab === 'education' ? 'bg-blue-600 text-white font-bold' : 'text-gray-700'
-          }`}
-        >
-          Bài học
-        </button>
-        <button
-          onClick={() => setActiveTab('quiz')}
-          className={`flex-1 py-1.5 rounded px-2 text-center whitespace-nowrap ${
-            activeTab === 'quiz' ? 'bg-blue-600 text-white font-bold' : 'text-gray-700'
-          }`}
-        >
-          Trắc nghiệm
-        </button>
-        <button
-          onClick={() => setActiveTab('volunteer')}
-          className={`flex-1 py-1.5 rounded px-2 text-center whitespace-nowrap ${
-            activeTab === 'volunteer' ? 'bg-blue-600 text-white font-bold' : 'text-gray-700'
-          }`}
-        >
-          Tình nguyện
-        </button>
+      {/* Mobile Navigation Bar */}
+      <div className="flex lg:hidden border-t border-slate-200/80 bg-slate-50/90 overflow-x-auto px-2 py-1.5 gap-1 text-xs">
+        {navItems.map((item) => (
+          <button
+            key={item.id}
+            onClick={() => setActiveTab(item.id)}
+            className={`flex-1 py-1.5 rounded-lg px-2.5 text-center font-semibold whitespace-nowrap transition-colors ${
+              activeTab === item.id
+                ? 'bg-slate-900 text-white shadow-xs'
+                : 'text-slate-600 hover:bg-slate-200/60'
+            }`}
+          >
+            {item.label}
+          </button>
+        ))}
       </div>
     </header>
   )
