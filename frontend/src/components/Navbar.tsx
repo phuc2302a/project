@@ -12,11 +12,11 @@ export const Navbar: React.FC<Props> = ({ activeTab, setActiveTab, onOpenSOS }) 
   const { isElderMode, toggleElderMode } = useElderMode()
 
   const navItems = [
-    { id: 'check', label: 'Tra cứu an toàn' },
-    { id: 'report', label: 'Tố giác lừa đảo' },
-    { id: 'education', label: 'Cẩm nang 01p' },
-    { id: 'quiz', label: 'Thử thách nhận diện' },
-    { id: 'volunteer', label: 'Đội tình nguyện' }
+    { id: 'check', label: 'Tra cứu' },
+    { id: 'report', label: 'Tố giác' },
+    { id: 'education', label: 'Cẩm nang' },
+    { id: 'quiz', label: 'Thử thách' },
+    { id: 'volunteer', label: 'Tình nguyện' }
   ]
 
   return (
