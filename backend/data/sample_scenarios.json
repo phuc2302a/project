@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "title": "Giả danh cơ quan Công an yêu cầu chuyển tiền",
+    "target_audience": "elderly",
+    "category": "impersonation",
+    "summary": "Kẻ xấu gọi điện tự xưng là cán bộ Công an, viện lý do tài khoản liên quan đến đường dây ma túy/rửa tiền và yêu cầu chuyển tiền vào 'tài khoản tạm giữ của cơ quan điều tra'.",
+    "key_warning": "Cơ quan Công an KHÔNG BAO GIỜ làm việc qua điện thoại hay yêu cầu chuyển tiền vào tài khoản cá nhân.",
+    "action_guide": "Giữ bình tĩnh, ngắt máy ngay và thông báo cho người thân hoặc đến trụ sở Công an xã/phường gần nhất để xác minh.",
+    "duration_minutes": 1
+  },
+  {
+    "id": 2,
+    "title": "Đường dẫn nhận quà tri ân / trúng thưởng giả mạo",
+    "target_audience": "general",
+    "category": "phishing_link",
+    "summary": "Tin nhắn gửi link thông báo bạn trúng thưởng xe máy hoặc nhận quà tri ân khách hàng từ siêu thị/nhà mạng, yêu cầu bấm vào link và nhập OTP ngân hàng để trả phí vận chuyển.",
+    "key_warning": "Không có giải thưởng hay quà tặng miễn phí nào bắt bạn nhập mã OTP hoặc nạp tiền trước.",
+    "action_guide": "Không bấm vào đường link lạ. Không cung cấp mã OTP ngân hàng cho bất kỳ ai.",
+    "duration_minutes": 1
+  },
+  {
+    "id": 3,
+    "title": "Tuyển cộng tác viên chốt đơn 'việc nhẹ lương cao'",
+    "target_audience": "student",
+    "category": "fake_job",
+    "summary": "Mời gọi học sinh làm cộng tác viên Shopee/TikTok làm việc tại nhà, hoa hồng 10-20%. Những đơn đầu nạp tiền nhỏ được trả đầy đủ, đến đơn tiền triệu thì bị chiếm đoạt.",
+    "key_warning": "Các sàn thương mại điện tử chính thống không tuyển cộng tác viên thanh toán hộ đơn hàng để hưởng hoa hồng.",
+    "action_guide": "Tuyệt đối không tham gia các hội nhóm tuyển CTV nạp tiền làm nhiệm vụ.",
+    "duration_minutes": 1
+  },
+  {
+    "id": 4,
+    "title": "Người thân gặp tai nạn cần chuyển tiền viện phí gấp",
+    "target_audience": "elderly",
+    "category": "emergency_scam",
+    "summary": "Kẻ lừa đảo gọi cho phụ huynh/ông bà báo tin con/cháu đang cấp cứu tại bệnh viện cần nộp tiền mổ gấp, đánh vào tâm lý hoảng loạn để giục chuyển tiền ngay.",
+    "key_warning": "Kẻ lừa đảo luôn hối thúc và tạo tình huống nguy kịch để nạn nhân không kịp suy nghĩ.",
+    "action_guide": "Không chuyển tiền ngay. Gọi điện trực tiếp cho con cháu hoặc giáo viên chủ nhiệm, bệnh viện để kiểm tra.",
+    "duration_minutes": 1
+  },
+  {
+    "id": 5,
+    "title": "Nạp thẻ game lậu / mua bán tài khoản giá rẻ",
+    "target_audience": "student",
+    "category": "gaming_scam",
+    "summary": "Trang web giả mạo nạp quân huy, kim cương x10 hoặc bán nick game VIP giá rẻ. Sau khi nhập thông tin đăng nhập hoặc nạp thẻ cào thì bị mất nick và mất tiền.",
+    "key_warning": "Chỉ nạp thẻ trên cổng nạp chính thức của nhà phát hành (Garena, VNG, Zing).",
+    "action_guide": "Bật xác thực 2 lớp cho tài khoản game, không đăng nhập tài khoản vào các web lạ.",
+    "duration_minutes": 1
+  },
+  {
+    "id": 6,
+    "title": "Cảnh báo khóa sim điện thoại / nợ cước viễn thông",
+    "target_audience": "elderly",
+    "category": "impersonation",
+    "summary": "Cuộc gọi tự động thông báo thuê bao sẽ bị khóa trong 2 giờ vì vi phạm pháp luật, yêu cầu bấm phím 1 gặp nhân viên để được hướng dẫn cung cấp CCCD.",
+    "key_warning": "Nhà mạng viễn thông có tin nhắn SMS Brandname chính thức và mời ra điểm giao dịch trực tiếp nếu cần chuẩn hóa thông tin.",
+    "action_guide": "Bấm tắt cuộc gọi ngay. Không làm theo bất kỳ hướng dẫn bấm phím nào từ cuộc gọi tự động.",
+    "duration_minutes": 1
+  },
+  {
+    "id": 7,
+    "title": "Nâng cấp hạn mức thẻ tín dụng / vay tiền online siêu tốc",
+    "target_audience": "general",
+    "category": "loan_scam",
+    "summary": "Mạo danh nhân viên ngân hàng hỗ trợ vay tiền không thế chấp hoặc nâng hạn mức thẻ, yêu cầu nộp 'phí hồ sơ' hoặc 'phí bảo hiểm khoản vay' trước.",
+    "key_warning": "Ngân hàng không bao giờ thu phí duyệt vay trước khi giải ngân.",
+    "action_guide": "Chỉ liên hệ trực tiếp chi nhánh ngân hàng hoặc tổng đài chính thức khi có nhu cầu tín dụng.",
+    "duration_minutes": 1
+  },
+  {
+    "id": 8,
+    "title": "Giả mạo tin nhắn thương hiệu (SMS Brandname) ngân hàng",
+    "target_audience": "general",
+    "category": "sms_brandname",
+    "summary": "Sử dụng trạm BTS giả mạo để chèn tin nhắn vào luồng SMS thật của ngân hàng, báo tài khoản đăng nhập bất thường và yêu cầu bấm vào link giả để hủy.",
+    "key_warning": "Ngân hàng đã dừng gửi đường link trong SMS Brandname theo quy định của Ngân hàng Nhà nước.",
+    "action_guide": "Không click vào link trong tin nhắn SMS ngân hàng. Chỉ đăng nhập qua App ngân hàng chính thức.",
+    "duration_minutes": 1
+  },
+  {
+    "id": 9,
+    "title": "Nhiệm vụ tài chính / đầu tư sàn tiền ảo lãi khủng",
+    "target_audience": "student",
+    "category": "fake_investment",
+    "summary": "Rủ rê tham gia nhóm Telegram đầu tư tiền ảo hoặc đặt lệnh nhị phân (BO), cam kết lãi 30-50%/ngày. Khi muốn rút tiền thì báo lỗi hệ thống bắt nộp thêm phí.",
+    "key_warning": "Không có kênh đầu tư hợp pháp nào mang lại lợi nhuận cao bất thường mà không có rủi ro.",
+    "action_guide": "Không tin vào các hội nhóm 'kéo lệnh', 'chuyên gia tài chính' trên Telegram, Zalo.",
+    "duration_minutes": 1
+  },
+  {
+    "id": 10,
+    "title": "Cài đặt file APK mã độc giả mạo cổng Dịch vụ công",
+    "target_audience": "elderly",
+    "category": "malicious_apk",
+    "summary": "Kẻ xấu gọi điện hướng dẫn cập nhật thông tin định danh VNeID hoặc nộp thuế đất, gửi link tải file cài đặt có đuôi .apk chứa mã độc chiếm quyền điều khiển điện thoại.",
+    "key_warning": "Chỉ tải ứng dụng VNeID, VssID từ Google Play Store hoặc Apple App Store chính thức.",
+    "action_guide": "Tuyệt đối không cấp quyền Trợ năng (Accessibility) cho ứng dụng tải từ file ngoài trình duyệt.",
+    "duration_minutes": 1
+  }
+]
